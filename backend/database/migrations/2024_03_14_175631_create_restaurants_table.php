@@ -20,10 +20,10 @@ return new class extends Migration
             $table->string('longitude');
             $table->string('latitude');
             $table->string('city');
-            $table->integer('stars');
-
+            $table->integer('stars')->default(0);
+            $table->string('phoneNumber');
             $table->string('type');
-            $table->string('bio');
+            $table->string('bio')->nullable();
             $table->string('profile_picture');
         });
     }

@@ -1,0 +1,265 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+.navbar {
+    background-color: #e9663b;
+    padding: 1rem 0;
+
+}
+
+.navbar-logo {
+    font-family: "Pacifico", cursive;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 31px !important;
+}
+
+* {
+    padding: 0;
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    margin: 0;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    height: 50px;
+    font-size: 17px;
+    text-transform: capitalize;
+}
+
+.navbar-logo {
+    color: #fff;
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.menu-icon {
+    display: none;
+    cursor: pointer;
+}
+
+.menu-icon i {
+    color: #fff;
+    font-size: 1.5rem;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    margin-left: 2rem;
+}
+
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: rgb(0, 0, 0);
+}
+
+@media screen and (max-width: 768px) {
+    .menu-icon {
+        display: block;
+    }
+
+    .nav-menu {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 4.5rem;
+        left: 0;
+        width: 100%;
+        background-color: #e9663b;
+        padding: 1rem;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        height: 80%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        width: 100%;
+        padding: 0;
+    }
+
+    .nav-menu.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .nav-item {
+        margin-left: 0;
+        margin-bottom: 1rem;
+    }
+}
+
+.menu-icon {
+    font-size: 23px;
+    color: white;
+}
+
+.login {
+    background-color: white;
+    padding: 9px 13px;
+    color: black;
+    border-radius: 10px;
+    color: #0c0c0c;
+    font-weight: 500;
+}
+
+.login:hover {
+    color: black !important;
+}
+
+.main-body {
+    height: 86vh;
+    width: 100%;
+    background-color: #e9663b;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.main-left {
+    margin-top: -120px;
+}
+
+
+
+.welcome-text {
+    color: white;
+}
+
+.welcome-text .big {
+    font-size: 80px;
+}
+
+.main-right img {
+    height: 500px;
+    width: 500px;
+    border-radius: 20px;
+    object-fit: contain;
+}
+
+.loginPage {
+    height: 100vh;
+    background-color: #b4b0b0;
+}
+
+.choices {
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    flex-wrap: wrap;
+
+}
+
+.choices div {
+    background-color: #e6bb47;
+    margin: 10px;
+    padding: 20px;
+    padding: 40px;
+    font-size: 30px;
+    border-radius: 20px;
+    color: #ffffff;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    cursor: pointer;
+}
+
+@media screen and (max-width:800px) {
+    .choices {
+        width: 100%;
+        height: 400px;
+        margin: auto;
+    }
+
+    .choices div {
+        font-size: 17px;
+    }
+
+    .loginPage {
+        display: flex;
+        align-items: center;
+    }
+}
+
+.choice {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    ;
+    align-items: center;
+    background-color: rgb(236, 227, 227) !important;
+    flex-wrap: wrap;
+    flex-direction: column;
+
+}
+
+.choice2 {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.choice2 div {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 70px;
+    cursor: pointer;
+    margin: 0 30px;
+    background-color: #e6bc47d6;
+    border-radius: 20px;
+}
+
+.choice3 {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.choice3 button {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    color: white;
+    border: none;
+}
+
+@media screen and (max-width: 768px) {
+
+    .choice2 div {
+        margin-top: 17px;
+    }
+
+}
+
+.continue {
+    color: #ffffff !important;
+    background-color: #e6bb47 !important;
+    margin-top: 10px;
+}
+
+.rowdiv {
+    display: flex;
+    width: 100% !important;
+
+}
+
+.rowdiv :first-child {
+    margin: 0 4px;
+}

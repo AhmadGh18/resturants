@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('full_name');
             $table->string('email')->unique();
-            $table->string('longitude'); // Assuming these are for location
-            $table->string('latitude');  // coordinates, adjust data types
+            $table->string('longitude')->nullable(); // Assuming these are for location
+            $table->string('latitude')->nullable();  // coordinates, adjust data types
             $table->integer('has_restaurant');
             $table->string('password');
+            $table->string('city')->nullable();
+            $table->string("user_phone");
 
             $table->rememberToken();
             $table->timestamps();
@@ -40,9 +42,7 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
+
     public function down(): void
     {
         Schema::dropIfExists('users');
