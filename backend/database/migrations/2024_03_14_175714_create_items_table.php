@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string("price");
             $table->string("description");
             $table->string("thumbnail");
-            $table->string("date_posted");
             $table->unsignedBigInteger('restaurant_id'); // Add restaurant_id as foreign key
 
             // Define foreign key constraint

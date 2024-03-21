@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Image extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        "item_id",
+        "imgUrl",
+    ];
     public function item()
     {
         return $this->belongsTo(Item::class);

@@ -9,6 +9,17 @@ class Item extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        "title",
+        "price",
+        "description",
+        "restaurant_id",
+        "thumbnail",
+
+    ];
+
+
+
     public function restaurant()
     {
         return $this->belongsTo(Restaurant::class);

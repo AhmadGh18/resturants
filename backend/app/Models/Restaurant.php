@@ -32,4 +32,8 @@ class Restaurant extends Model
     {
         return $this->hasMany(Order::class);
     }
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class);
+    }
 }

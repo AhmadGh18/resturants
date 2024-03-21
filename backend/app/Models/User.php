@@ -64,4 +64,8 @@ class User extends Authenticatable
     {
         return $this->has_restaurant;
     }
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class);
+    }
 }
