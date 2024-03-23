@@ -5,9 +5,24 @@ const StateContext = createContext({
   setUser: () => {},
   setToken: () => {},
   token: null,
+  RegestrationInfo: null,
+  setRegistrationInfo: () => {},
+  restaurant: null,
+  setRestaurant: () => {},
 });
 export const ContextProvider = ({ children }) => {
   const [User, setUser] = useState({});
+  const [restaurant, setRestaurant] = useState({});
+  const [RegestrationInfo, setRegistrationInfo] = useState({
+    name: "",
+    city: "",
+    phoneNumber: "",
+    longitude: "",
+    latitude: "",
+    profile_picture: null,
+    user_id: "",
+    type: "",
+  });
 
   const [token, _setToken] = useState(localStorage.getItem("AccessToken"));
 
@@ -26,8 +41,11 @@ export const ContextProvider = ({ children }) => {
         User,
         token,
         setToken,
-
+        RegestrationInfo,
+        setRegistrationInfo,
         setUser,
+        setRestaurant,
+        restaurant,
       }}
     >
       {children}

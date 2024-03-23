@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('name');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('longitude');
-            $table->string('latitude');
+            $table->float('longitude');
+            $table->float('latitude');
             $table->string('city');
             $table->integer('stars')->default(0);
             $table->string('phoneNumber');

@@ -23,10 +23,11 @@ class Itemrequest extends FormRequest
     {
         return [
             "title" => "string|required",
-            "price" => "float|required",
+            "price" => "numeric|required",
             "description" => "string|required",
             "thumbnail" => "file|required",
             "restaurant_id" => "integer|required",
+
         ];
     }
 }

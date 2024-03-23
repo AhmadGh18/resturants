@@ -8,6 +8,16 @@ import Guest from "./MainComponents/Guest";
 import UserPage from "./MainComponents/UserPage";
 import RestaurantLogin from "./components/RestaurantLogin";
 import AddRestaurant from "./components/AddRestaurant";
+import Map from "./MainComponents/Map";
+import RestaurantDashboard from "./components/RestaurantDashboard";
+import SideBar from "./components/SideBar";
+import Orders from "./components/Orders";
+
+import AskName from "./components/AskName";
+import AddLocation from "./AddLocation";
+import AddProfile from "./AddProfile";
+import RestaurantInfo from "./RestaurantInfo";
+import RestaurantMenu from "./components/RestaurantMenu";
 
 const router = createBrowserRouter([
   {
@@ -49,19 +59,68 @@ const router = createBrowserRouter([
     element: <Default />,
     children: [
       {
+        path: "/main",
+        element: <Navigate to="/main/homePage" />,
+      },
+      {
         path: "/main/userPage",
         element: <UserPage />,
       },
       {
+        path: "/main/Addrestaurant",
+        element: <AddRestaurant />,
+        children: [
+          {
+            path: "/main/Addrestaurant/AddName",
+            element: <AskName />,
+          },
+          {
+            path: "/main/Addrestaurant/AddLocation",
+            element: <AddLocation />,
+          },
+          {
+            path: "/main/Addrestaurant/Addprofile",
+            element: <AddProfile />,
+          },
+        ],
+      },
+      {
         path: "/main/restaurantPage",
         element: <RestaurantPage />,
-      },
-
-      {
-        path: "/main/AddRestaurant",
-        element: <AddRestaurant />,
+        children: [
+          {
+            path: "/main/restaurantPage/map",
+            element: <Map />,
+          },
+          {
+            path: "/main/restaurantPage/dashboard",
+            element: <RestaurantDashboard />,
+            children: [
+              {
+                path: "/main/restaurantPage/dashboard/orders",
+                element: <Orders />,
+              },
+              {
+                path: "/main/restaurantPage/dashboard/personalInfo",
+                element: <RestaurantInfo />,
+              },
+              {
+                path: "/main/restaurantPage/dashboard/menu",
+                element: <RestaurantMenu />,
+              },
+            ],
+          },
+        ],
       },
     ],
+  },
+  {
+    path: "/map",
+    element: <Map />,
+  },
+  {
+    path: "/AskName",
+    element: <AskName />,
   },
 ]);
 

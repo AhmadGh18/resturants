@@ -9,6 +9,19 @@ use Illuminate\Http\Request;
 
 class RestaurantsController extends Controller
 {
+    public function getByUserId($userId)
+    {
+        // Retrieve the restaurant based on the user ID
+        $restaurant = Restaurant::where('user_id', $userId)->first();
+
+        if ($restaurant) {
+            // Return the restaurant data if found
+            return response()->json($restaurant);
+        } else {
+            // Handle the case where no restaurant is found for the given user ID
+            return response()->json(['error' => 'Restaurant not found'], 404);
+        }
+    }
 
     public function create(Restaurantrequest $request)
     {

@@ -34,7 +34,7 @@ const RestaurantLogin = () => {
       .then((response) => {
         setUser(response.data.user);
         setToken(response.data.token);
-        nav("/main/AddRestaurant");
+        nav("/main/AddRestaurant/AddName");
 
         console.log(response);
       })
