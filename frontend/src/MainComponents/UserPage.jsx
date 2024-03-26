@@ -1,11 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { useStateContext } from "../context/ContextProvider";
 import axiosClient from "../axiosClient";
+import UserNav from "../components/UserNav";
 
 const UserPage = () => {
   const { setUser, User } = useStateContext();
   const [loading, setLoading] = useState(false);
+  const [nearbyRestaurants, setNearbyRestaurants] = useState([]);
+  useEffect(() => {
+    const fetchNearbyRestaurants = async (latitude, longitude) => {
+      setLoading(true);
+      try {
+        const response = await axiosClient.get(
+          `/restaurant/getnearbyrestaurants?latitude=${latitude}&longitude=${longitude}`
+        );
+        setNearbyRestaurants(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching nearby restaurants:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    if (User && User.latitude && User.longitude) {
+      fetchNearbyRestaurants(User.latitude, User.longitude);
+    }
+  }, [User]);
   useEffect(() => {
     const fetchUserLocation = () => {
       setLoading(true);
@@ -67,6 +88,7 @@ const UserPage = () => {
 
   return (
     <div>
+      <UserNav />
       <p>kkkk</p>
       {User ? User.full_name : "Loading..."}
     </div>

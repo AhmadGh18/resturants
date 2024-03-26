@@ -38,7 +38,6 @@ const AddLocation = () => {
         "https://rawgit.com/Logicify/jquery-locationpicker-plugin/master/dist/locationpicker.jquery.js"
       )
         .then(() => {
-          // Initialize locationpicker plugin
           $("#us2").locationpicker({
             location: {
               latitude,

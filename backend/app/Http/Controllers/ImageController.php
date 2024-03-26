@@ -10,26 +10,24 @@ class ImageController extends Controller
     public function create(Request $request)
     {
         $formFields = $request->validate([
-            'item_id' => "required|integer",
-            'imgUrl' => 'required|file' // Use 'imgUrl' as per your validation rules
+            // 'item_id' => "required|integer",
+            'imgUrl.*' => 'required|image'
         ]);
 
-        if ($request->hasFile('imgUrl')) { // Use 'imgUrl' here
-            $file = $request->file('imgUrl');
-            $fileName = now()->format('His') . $file->getClientOriginalName();
+        if ($request->hasFile('imgUrl')) {
+            foreach ($request->file('imgUrl') as $file) {
+                $fileName = now()->format('His') . $file->getClientOriginalName();
 
-            $path = $file->store('images', 'public');
+                $path = $file->store('images', 'public');
 
-            // Create a new image record
-            Image::create([
-                'imgUrl' => $path,
-                'item_id' => $formFields['item_id'], // Use the item_id from the validated form fields
-            ]);
+                Image::create([
+                    'imgUrl' => $path,
+                    'item_id' => 35,
+                ]);
+            }
 
-            // Optionally, return a response indicating success
-            return response()->json(['message' => 'Image uploaded successfully']);
+            return response()->json(['message' => 'Images uploaded successfully']);
         }
-
-        return response()->json(['error' => 'No file uploaded'], 400);
     }
+
 }

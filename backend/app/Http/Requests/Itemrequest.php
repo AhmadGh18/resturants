@@ -25,9 +25,12 @@ class Itemrequest extends FormRequest
             "title" => "string|required",
             "price" => "numeric|required",
             "description" => "string|required",
-            "thumbnail" => "file|required",
-            "restaurant_id" => "integer|required",
+            "thumbnail" => "image|required", // Validate thumbnail file
+            'images.*' => 'required|image',
 
+            "restaurant_id" => "integer|required",
+            "categories" => "string", // Validate each item in the categories array
         ];
     }
+
 }

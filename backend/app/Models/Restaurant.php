@@ -18,7 +18,8 @@ class Restaurant extends Model
         "latitude",
         "user_id",
         "bio",
-        "profile_picture"
+        "profile_picture",
+        "id",
 
     ];
 

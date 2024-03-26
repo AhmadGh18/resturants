@@ -1,0 +1,46 @@
+#app {
+    height: 100%;
+}
+
+
+.swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+
+    /* Center slide text vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-slide img {
+    display: block;
+    width: 100px;
+    height: 100%;
+    object-fit: cover;
+}
+
+.AllItem-restaurant {
+    display: flex;
+    background-color: #bcaaaa;
+}
+
+.singleItem {
+    height: 300px;
+}
+
+.mySwiper {
+    height: 100px;
+    width: 100px;
+}
+
+.mySwiper img {
+    height: 100%;
+    width: 100%;
+}

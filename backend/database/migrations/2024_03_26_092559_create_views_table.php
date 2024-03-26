@@ -11,15 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('feedback', function (Blueprint $table) {
+        Schema::create('views', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id'); // Add user_id as foreign key
-            $table->unsignedBigInteger('restaurant_id'); // Add restaurant_id as foreign key
             $table->timestamps();
-            $table->string("feedback");
-            $table->integer('stars');
-            // Define foreign key constraints
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');;
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
         });
     }
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('feedbacks');
+        Schema::dropIfExists('views');
     }
 };

@@ -12,7 +12,8 @@ class Order extends Model
         "restaurant_id",
         "user_id",
         "price",
-        "destination"
+        "destination",
+        "state",
     ];
     public function restaurant()
     {

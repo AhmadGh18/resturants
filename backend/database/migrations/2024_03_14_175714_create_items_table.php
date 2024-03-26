@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string("description");
             $table->string("thumbnail");
             $table->unsignedBigInteger('restaurant_id'); // Add restaurant_id as foreign key
+            $table->string("categories");
 
-            // Define foreign key constraint
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
 
             $table->timestamps();

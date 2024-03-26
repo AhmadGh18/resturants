@@ -12,12 +12,15 @@ import Map from "./MainComponents/Map";
 import RestaurantDashboard from "./components/RestaurantDashboard";
 import SideBar from "./components/SideBar";
 import Orders from "./components/Orders";
-
+import "./index.css";
 import AskName from "./components/AskName";
 import AddLocation from "./AddLocation";
 import AddProfile from "./AddProfile";
 import RestaurantInfo from "./RestaurantInfo";
 import RestaurantMenu from "./components/RestaurantMenu";
+import AddItem from "./components/AddItem";
+import Tes from "./Tes";
+import AddMultipleImage from "./components/AddMultipleImage";
 
 const router = createBrowserRouter([
   {
@@ -108,6 +111,10 @@ const router = createBrowserRouter([
                 path: "/main/restaurantPage/dashboard/menu",
                 element: <RestaurantMenu />,
               },
+              {
+                path: "/main/restaurantPage/dashboard/additem",
+                element: <AddItem />,
+              },
             ],
           },
         ],
@@ -121,6 +128,10 @@ const router = createBrowserRouter([
   {
     path: "/AskName",
     element: <AskName />,
+  },
+  {
+    path: "/AddMultipleImage",
+    element: <AddMultipleImage />,
   },
 ]);
 

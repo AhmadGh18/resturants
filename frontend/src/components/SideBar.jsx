@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./sidebar.css";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../context/ContextProvider";
+import { FaPlus } from "react-icons/fa";
 const SideBar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const { setToken } = useStateContext();
@@ -74,6 +75,17 @@ const SideBar = () => {
             <Link to="" className="nav_link" onClick={handleNavLinkClick}>
               <i className="bx bx-bar-chart-alt-2 nav_icon"></i>
               <span className="nav_name">Stats</span>
+            </Link>
+            <Link
+              to="/main/restaurantPage/dashboard/additem"
+              className="nav_link"
+              onClick={handleNavLinkClick}
+            >
+              <FaPlus
+                style={{ color: "white" }}
+                className="bx bx-bar-chart-alt-2 nav_icon"
+              />
+              <span className="nav_name">Add item</span>
             </Link>
           </div>
           <Link className="nav_link" onClick={handlellogut}>

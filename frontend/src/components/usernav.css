@@ -1,0 +1,65 @@
+* {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.navbar1 {
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Changed from space-around */
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 0 20px;
+    /* Added padding for better spacing */
+}
+
+.navbar1 ul {
+    list-style-type: none;
+    display: flex;
+}
+
+.navbar1 ul li {
+    margin: 0 10px !important;
+    /* Removed !important */
+    font-size: 21px;
+}
+
+.navicon {
+    font-size: 26px;
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .navbar1 {
+        height: 60px;
+        /* Adjusted height for smaller screens */
+    }
+
+    .navbar1 ul {
+        display: none;
+        /* Hide the menu items by default on small screens */
+    }
+
+    .navicon {
+        display: block;
+        /* Show the menu icon on small screens */
+    }
+
+    .navbar1 {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+    }
+}
+
+.navbar1 nav.active ul {
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar1 nav.active ul li {
+    margin: 10px 0;
+}

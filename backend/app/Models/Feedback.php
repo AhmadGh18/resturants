@@ -13,6 +13,7 @@ class Feedback extends Model
         "stars",
         "feedback",
         "restaurant_id",
+        "user_id",
     ];
     use HasFactory;
 

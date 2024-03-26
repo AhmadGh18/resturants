@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('destination'); // Add destination column
             $table->string('state');
 
-            $table->date('date'); // Add date column
             $table->timestamps();
 
             // Define foreign key constraints
