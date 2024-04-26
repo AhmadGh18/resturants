@@ -5,7 +5,7 @@ import { Navigate, Outlet } from "react-router-dom";
 const Guest = () => {
   const { token } = useStateContext();
   if (token) {
-    return <Navigate to="/main" />;
+    return <Navigate to="/home" />;
   }
   return (
     <div>

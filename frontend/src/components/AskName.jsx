@@ -32,13 +32,30 @@ const AskName = () => {
   const handleClick = () => {
     if (isValid) {
       nav("/main/Addrestaurant/AddLocation");
-    } else {
-      console.log("Please fill in all fields");
     }
   };
+  const [isVisible, setIsVisible] = useState(false);
+
+  React.useEffect(() => {
+    // Set isVisible to true after a short delay to trigger the transition
+    const timeout = setTimeout(() => {
+      setIsVisible(true);
+    }, 100);
+
+    // Clear the timeout when the component unmounts or when isVisible becomes true
+    return () => clearTimeout(timeout);
+  }, []);
 
   return (
-    <div className="form-container" style={{ margin: "auto" }}>
+    <div
+      className="form-container mt-10"
+      style={{
+        margin: isVisible ? "60px auto" : "0 auto",
+        transform: isVisible ? "translateY(0)" : "translateY(100px)",
+        opacity: isVisible ? 1 : 0,
+        transition: "margin 0.5s, transform 0.5s, opacity 0.5s",
+      }}
+    >
       <div className="logo-container">Please add your info!</div>
       <div className="line"></div>
       <form className="form">
@@ -76,9 +93,22 @@ const AskName = () => {
             <option value="">Select Type</option>
             <option value="Regular Restaurant">Regular Restaurant</option>
             <option value="Food truck">Food truck</option>
-            <option value="Caffe">Caffe</option>
-            <option value="Dessert">Dessert</option>{" "}
+            <option value="Cafe">Cafe</option>
+            <option value="Dessert">Dessert</option>
+            <option value="bakery">bakery</option>
+            <option value="resort">Resort</option>
           </select>
+        </div>
+        <div className="form-group">
+          <lable>Insert Max delivery distance</lable>
+          <input
+            type="number"
+            placeholder="Range of deleviey for ex 1km (Away from your restuarant)"
+            onChange={handleChange}
+            name="deleviery_range"
+            value={RegestrationInfo.deleviery_range}
+            min={1}
+          />
         </div>
 
         <button

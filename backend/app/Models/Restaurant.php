@@ -20,6 +20,7 @@ class Restaurant extends Model
         "bio",
         "profile_picture",
         "id",
+        "deleviery_range"
 
     ];
 
@@ -36,5 +37,9 @@ class Restaurant extends Model
     public function feedbacks()
     {
         return $this->hasMany(Feedback::class);
+    }
+    public function savedByUsers()
+    {
+        return $this->hasMany(Saved_restaurant::class);
     }
 }

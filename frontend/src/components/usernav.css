@@ -1,65 +1,94 @@
 * {
-    padding: 0 !important;
-    margin: 0 !important;
+    margin: 0;
+    padding: 0;
+    font-family: "futura md bt";
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
 }
 
-.navbar1 {
+
+
+header {
+    background: #fff;
     width: 100%;
-    background-color: rgb(255, 255, 255);
-    height: 90px;
+    height: 70px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /* Changed from space-around */
+    padding: 0 50px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    padding: 0 20px;
-    /* Added padding for better spacing */
+    z-index: 9999 !important;
 }
 
-.navbar1 ul {
-    list-style-type: none;
+header .logo {
+    font-size: 30px;
+    text-transform: uppercase;
+}
+
+header nav ul {
     display: flex;
 }
 
-.navbar1 ul li {
-    margin: 0 10px !important;
-    /* Removed !important */
-    font-size: 21px;
+header nav ul li a {
+    display: inline-block;
+    color: #000;
+    padding: 5px 0;
+    margin: 0 10px;
+    border: 3px solid transparent;
+    text-transform: uppercase;
+    transition: 0.2s;
 }
 
-.navicon {
-    font-size: 26px;
+/* header nav ul li a:hover,
+header nav ul li a.active {
+    border-bottom-color: dodgerblue;
+} */
+
+.hamburger {
+    cursor: pointer;
     display: none;
 }
 
-@media screen and (max-width: 768px) {
-    .navbar1 {
-        height: 60px;
-        /* Adjusted height for smaller screens */
-    }
+.hamburger div {
+    width: 30px;
+    height: 3px;
+    margin: 5px 0;
+    background: #000;
+}
 
-    .navbar1 ul {
-        display: none;
-        /* Hide the menu items by default on small screens */
+@media only screen and (max-width: 900px) {
+    header {
+        padding: 0 30px;
     }
+}
 
-    .navicon {
+@media only screen and (max-width: 700px) {
+    .hamburger {
         display: block;
-        /* Show the menu icon on small screens */
     }
 
-    .navbar1 {
-        display: flex;
-        flex-direction: row-reverse;
-        justify-content: space-between;
+    header nav {
+        position: absolute;
+        width: 100%;
+        left: -100%;
+        top: 70px;
+        width: 100%;
+        background: #fff;
+        padding: 30px;
+        transition: 0.3s;
+        z-index: 999;
     }
-}
 
-.navbar1 nav.active ul {
-    display: flex;
-    flex-direction: column;
-}
+    header #nav_check:checked~nav {
+        left: 0;
+    }
 
-.navbar1 nav.active ul li {
-    margin: 10px 0;
+    header nav ul {
+        display: block;
+    }
+
+    header nav ul li a {
+        margin: 5px 0;
+    }
 }

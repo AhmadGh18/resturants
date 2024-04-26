@@ -20,12 +20,7 @@ class UserController extends Controller
     //store is signup // add user Info
     public function store(Request $request)
     {
-        $user = User::where('email', $request->email)->first();
-        if ($user) {
-            return response()->json([
-                'error' => 'Email already exists',
-            ], 409);
-        }
+
 
         $formFields = $request->validate([
             'first_name' => ['required', 'min:3'],
@@ -43,7 +38,7 @@ class UserController extends Controller
         $formFields['password'] = bcrypt($formFields['password']);
 
         $user = User::create($formFields);
-        $token = $user->createToken("main")->plainTextToken;
+        $token = $user->createToken('main', ['expires_in' => 86400])->plainTextToken;
 
 
         return response()->json([
@@ -71,7 +66,12 @@ class UserController extends Controller
         }
 
         if (Hash::check($password, $user->password)) {
-            $token = $user->createToken('auth-token')->plainTextToken;
+        //     $token = $user->createToken('auth-token', ['expires_in' => 120])->plainTextToken;
+
+        // $token1= $user->createToken('auth-token', ['*'], now()->addWeek())->plainTextToken;
+
+        $token = $user->createToken('main', ['expires_in' => 86400])->plainTextToken;
+
             return response()->json([
                 'token' => $token,
                 'type' => 'user',

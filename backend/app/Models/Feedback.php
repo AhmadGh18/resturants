@@ -14,6 +14,7 @@ class Feedback extends Model
         "feedback",
         "restaurant_id",
         "user_id",
+
     ];
     use HasFactory;
 

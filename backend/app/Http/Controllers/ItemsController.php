@@ -12,6 +12,15 @@ use Illuminate\Support\Facades\Log;
 
 class ItemsController extends Controller
 {
+    public function getAll()
+    {
+        $items = Item::select('items.*', 'restaurants.name as restaurant_name', 'restaurants.profile_picture')
+                     ->join('restaurants', 'items.restaurant_id', '=', 'restaurants.id')
+                     ->get();
+
+        return $items;
+    }
+
 
     public function getItemsByRestaurantId(Request $request, $restaurantId)
     {
@@ -32,20 +41,18 @@ class ItemsController extends Controller
  public function create(ItemRequest $request)
  {
      try {
-         // Validate the request data
          $itemData = $request->validated();
 
-         // Handle thumbnail upload if present
+
          if ($request->hasFile('thumbnail')) {
              $thumbnailFile = $request->file('thumbnail');
              $thumbnailPath = $thumbnailFile->store('thumbnails', 'public');
              $itemData['thumbnail'] = $thumbnailPath;
          }
 
-         // Create the item record
-         $item = Item::create($itemData);
 
-         // Get the ID of the created item
+            $item = Item::create($itemData);
+
          $itemId = $item->id;
 
 
@@ -109,5 +116,40 @@ class ItemsController extends Controller
 
         // Optionally, return a response indicating success
         return response()->json(['message' => 'Item deleted successfully']);
+    }
+    public function singleItem($itemId)
+    {
+        $item = Item::with('images', 'restaurant')->findOrFail($itemId);
+
+        $responseData = [
+            'item' => $item,
+            'restaurant_name' => $item->restaurant->name
+        ];
+
+        return response()->json($responseData);
+    }
+
+    public function getbyCategory(Request $request, $category)
+    {
+
+        $items = Item::where('category', $category)
+                     ->with('restaurant')
+                     ->inRandomOrder()
+                     ->take(5)
+                     ->get();
+
+        return response()->json($items);
+    }
+    public function CheckoutItems(Request $request){
+        $ids = $request->input('ids');
+
+        $items = Item::with('images', 'restaurant')->whereIn('id', $ids)->get();
+
+        $responseData = [
+            'items' => $items,
+            // Here you can add more data if needed
+        ];
+
+        return response()->json($responseData);
     }
 }

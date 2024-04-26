@@ -68,7 +68,11 @@ const AddLocation = () => {
       <center>
         <h5>Move the pin and mark to your Restaurant Location</h5>
       </center>
-      <div id="us2" className="mapholder"></div>
+      <div
+        id="us2"
+        className="width-100 mapholder"
+        style={{ width: "100%" }}
+      ></div>
       <div className="btn-holder">
         <button
           className="button"

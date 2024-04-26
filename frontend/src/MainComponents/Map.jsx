@@ -32,8 +32,8 @@ const Map = () => {
     // Check if jQuery is available and locationpicker is initialized
     if (window.jQuery && $.fn.locationpicker) {
       const location = $("#us2").locationpicker("location");
-      console.log("Latitude:", location.latitude);
-      console.log("Longitude:", location.longitude);
+      // console.log("Latitude:", location.latitude);
+      // console.log("Longitude:", location.longitude);
     } else {
       console.error("jQuery or locationpicker plugin is not available.");
     }

@@ -68,4 +68,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Feedback::class);
     }
+    public function savedItems()
+    {
+        return $this->hasMany(Saved_item::class);
+    }
+    public function savedRestaurants()
+    {
+        return $this->hasMany(Saved_restaurant::class);
+    }
 }

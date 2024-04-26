@@ -16,8 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id'); // Add user_id as foreign key
             $table->unsignedBigInteger('restaurant_id'); // Add restaurant_id as foreign key
             $table->timestamps();
-            $table->string("feedback");
+            $table->string("feedback")->nullable();
             $table->integer('stars');
+
             // Define foreign key constraints
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');

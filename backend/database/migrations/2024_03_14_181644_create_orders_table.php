@@ -16,7 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger('restaurant_id'); // Add restaurant_id as foreign key
             $table->unsignedBigInteger('user_id'); // Add user_id as foreign key
             $table->decimal('price', 8, 2); // Add price column
-            $table->string('destination'); // Add destination column
+            $table->string('UserLogitude');
+            $table->string('UserLatitude');
+            $table->string('UserCity');
+
             $table->string('state');
 
             $table->timestamps();

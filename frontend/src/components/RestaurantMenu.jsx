@@ -10,7 +10,7 @@ const RestaurantMenu = () => {
   useEffect(() => {
     axiosClient.get(`/restaurants/${restaurant.id}/items`).then((data) => {
       setItems(data.data.items);
-      console.log(data.data.items);
+      // console.log(data.data.items);
     });
   }, []);
 

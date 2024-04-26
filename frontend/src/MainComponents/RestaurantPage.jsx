@@ -20,6 +20,9 @@ const RestaurantPage = () => {
 
     fetchRestaurantInfo();
   }, [User.id]);
+  if (User.has_restaurant == 0) {
+    return <Navigate to="/home" />;
+  }
   if (!token) {
     return <Navigate to="/home" />;
   }

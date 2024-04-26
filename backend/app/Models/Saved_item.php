@@ -12,4 +12,9 @@ class Saved_item extends Model
         "item_id",
     ];
     use HasFactory;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

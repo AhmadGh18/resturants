@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css2?family=Bakbak+One&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: "Bakbak One", sans-serif;
+
+    font-style: normal;
+}
+
+.homepage {
+    height: 80vh;
+    background-color: aqua;
+    background-image: url("../assets/images/home-tab3-hero-1367x520-prog.jpg");
+    background-size: cover;
+    background-position: bottom;
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+
+}
+
+.searchText {
+    margin-top: 130px;
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.searchText h1 {
+    margin-bottom: 10px;
+    font-size: 39px;
+    color: white;
+}
+
+.searchText input {
+    padding: 20px;
+    border-radius: 40px;
+    width: 100%;
+}
+
+.searchText input:focus {
+    border: none;
+    outline: 2px rgba(36, 34, 34, 0.464) solid;
+    ;
+}
+
+.searchhold {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 85%;
+
+}
+
+.searchfa {
+    position: absolute;
+    color: rgb(113, 113, 112);
+    left: 15px;
+}
+
+@media screen and (max-width: 768px) {
+    .searchText {
+        align-items: center;
+        display: flex;
+        text-align: center;
+
+    }
+}
+
+.searchResult {
+    background-color: rgb(255, 255, 255);
+    width: 85%;
+    /* height: 400px; */
+    outline: none;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    margin-top: -5px;
+    transition: 0.4s ease;
+
+
+}
+
+.searchText input:focus {
+    border-radius: 10px;
+    outline: none;
+    ;
+}
+
+
+
+
+.resultList {
+    list-style-type: none;
+    padding: 0;
+    cursor: pointer;
+    transition: 0.4s ease;
+    max-height: 400px;
+    overflow-y: scroll;
+
+}
+
+.resultItem {
+    transition: 0.4s ease;
+
+    padding: 12px 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.resultItem:last-child {
+    border-bottom: none;
+}
+
+.profilelogo {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    object-fit: contain;
+}
+
+.searchone {
+    display: flex;
+    align-items: center;
+    ;
+}
+
+.infobottom {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.searchone {}
+
+.infobottom * {
+    font-weight: 100 !important;
+
+}
+
+.infosection {
+    display: flex;
+    height: 30vh;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.infosection div .head {
+    color: rgb(40, 201, 147);
+    font-size: 20px;
+}
+
+.infosection div {
+    background-color: beige;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    margin: 12px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+@media screen and (max-width: 768px) {
+    .infosection div {
+        width: 100%;
+    }
+
+    .infosection {
+        height: auto;
+    }
+
+
+
+}
+
+.allrestaurant_container div {
+    cursor: pointer;
+}
+
+.allrestaurant_container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+
+}
+
+.holderAll {
+    margin: 0 100px;
+}
+
+.singlerestaurant {
+    height: 300px;
+    width: 300px;
+    margin: 10px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    padding: 5px;
+}
+
+.singlerestaurant img {
+    height: 80%;
+    object-fit: cover;
+    width: 100%;
+}
+
+.stars {
+    display: flex;
+}
+
+@media screen and (max-width:800px) {
+    .allrestaurant_container {
+        margin: 0;
+    }
+
+    .singlerestaurant {
+        height: 200px;
+        width: 150px;
+        margin: 10px;
+    }
+}
+
+/* AllRestaurants.css */
+@keyframes move {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.animate-heading {
+    animation: move 1s infinite;
+    /* Apply the animation to the heading */
+    color: #4a5568;
+    /* Dark gray color */
+    font-size: 2.5rem;
+    /* Large font size */
+    text-align: center;
+    /* Center the text */
+    margin-bottom: 2rem;
+    /* Add some bottom margin for spacing */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    /* Add a subtle text shadow */
+}

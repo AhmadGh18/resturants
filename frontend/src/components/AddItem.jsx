@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useStateContext } from "../context/ContextProvider";
 import axiosClient from "../axiosClient";
+import { useNavigate } from "react-router-dom";
 
 const AddItem = () => {
-  const { restaurant, setRestaurant, User } = useStateContext();
+  const { restaurant, setRestaurant, User, token } = useStateContext();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
-  const [categories, setCategories] = useState([]);
+  const [tags, setTags] = useState([]);
   const [categoryInput, setCategoryInput] = useState("");
   const [formData, setFormData] = useState({
     title: "",
@@ -16,17 +17,26 @@ const AddItem = () => {
     description: "",
     thumbnail: null,
     images: [],
-    categories: [],
-    restaurant_id: restaurant.id,
+    tags: [],
+    restaurant_id: "",
+    // category: "",
   });
-
+  const nav = useNavigate();
+  const [restaurantId, setRestaurantId] = useState(null); // Track restaurant ID
+  useEffect(() => {
+    if (User.has_restaurant == 0) {
+      return nav("/newUser/login");
+    }
+  }, []);
   useEffect(() => {
     const fetchRestaurantInfo = async () => {
       try {
         const response = await axiosClient.get(
           `/restaurant/getByUserId/${User.id}`
         );
-        setRestaurant(response.data);
+        setRestaurant(response.data.restaurant);
+        setRestaurantId(response.data.restaurant.id);
+        console.log("data recevied are", response.data);
       } catch (error) {
         console.error("Error fetching restaurant information:", error);
       }
@@ -34,6 +44,24 @@ const AddItem = () => {
 
     fetchRestaurantInfo();
   }, [User.id]);
+  if (token) {
+    if (User.has_restaurant == 0) {
+      return nav("/newUser/login");
+    }
+  }
+  const foodOptions = [
+    { id: 1, name: "Pizza" },
+    { id: 2, name: "Burger" },
+    { id: 3, name: "Pasta" },
+    { id: 4, name: "Sandwiches" },
+    { id: 5, name: "Dessert" },
+    { id: 6, name: "Sushi" },
+    { id: 7, name: "Tacos" },
+    { id: 8, name: "Salad" },
+    { id: 9, name: "Steak" },
+    { id: 10, name: "Seafood" },
+  ];
+
   const handleThumbnailSelect = (event) => {
     const file = event.target.files[0];
     setFormData((prevFormData) => ({
@@ -77,7 +105,7 @@ const AddItem = () => {
 
   const handleAddCategory = () => {
     if (categoryInput.trim() !== "") {
-      setCategories((prevCategories) => [...prevCategories, categoryInput]);
+      setTags((prevCategories) => [...prevCategories, categoryInput]);
       setCategoryInput("");
     }
   };
@@ -91,9 +119,7 @@ const AddItem = () => {
   };
 
   const handleDeleteCategory = (index) => {
-    setCategories((prevCategories) =>
-      prevCategories.filter((_, i) => i !== index)
-    );
+    setTags((prevCategories) => prevCategories.filter((_, i) => i !== index));
   };
 
   const handleSubmit = (event) => {
@@ -103,18 +129,19 @@ const AddItem = () => {
     formDataObject.append("title", formData.title);
     formDataObject.append("price", formData.price);
     formDataObject.append("description", formData.description);
-    formDataObject.append("restaurant_id", restaurant.id);
+    formDataObject.append("restaurant_id", restaurantId);
     formDataObject.append("thumbnail", formData.thumbnail);
+    formDataObject.append("category", formData.category);
+
     selectedFiles.forEach((file, index) => {
       formDataObject.append(`images[${index}]`, file);
     });
-    const joinedCategories = categories.join(",");
-    formDataObject.append("categories", joinedCategories);
+    const joinedCategories = tags.join(",");
+    formDataObject.append("tags", joinedCategories);
     axiosClient
-      .post("/items/create", formDataObject)
+      .post("/items/addItem", formDataObject)
       .then((response) => {
-        console.log("Success:", response.data);
-        // Handle success (e.g., show success message)
+        nav("/main/restaurantPage/dashboard/ManageItems");
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -123,7 +150,7 @@ const AddItem = () => {
   };
 
   return (
-    <div>
+    <div className="m-auto w-100">
       <section className="bg-gray-100">
         <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
@@ -146,10 +173,11 @@ const AddItem = () => {
                     name="title"
                     id="name"
                     onChange={handleChange}
+                    required
                   />
                 </div>
 
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="sm:grid-cols-2">
                   <div>
                     <label className="sr-only" htmlFor="phone">
                       Price
@@ -162,20 +190,13 @@ const AddItem = () => {
                       name="price"
                       onChange={handleChange}
                       min="1"
+                      required
                     />
                   </div>
                   <div>
                     <label className="sr-only" htmlFor="email">
                       Email
                     </label>
-                    <select
-                      name="currency"
-                      className="w-full rounded-lg border-gray-200 p-3 text-sm"
-                      onChange={handleChange}
-                    >
-                      <option value="$$">$$</option>
-                      <option value="LL">LL</option>
-                    </select>
                   </div>
                 </div>
 
@@ -198,6 +219,7 @@ const AddItem = () => {
                     type="file"
                     name="thumbnail"
                     onChange={handleThumbnailSelect}
+                    required
                   />
                 </div>
                 <img
@@ -205,7 +227,12 @@ const AddItem = () => {
                   className="w-32 h-32 object-cover rounded-lg mr-2 mb-2"
                 />
                 <div>
-                  <label htmlFor="filein">Choose Images</label>
+                  <label
+                    className="bg-blue-200 p-1 rounded-lg border border-gray-200 text-white-200"
+                    htmlFor="filein"
+                  >
+                    Choose More Images
+                  </label>
                   <input
                     type="file"
                     id="filein"
@@ -238,9 +265,24 @@ const AddItem = () => {
                     Add Picture
                   </label>
                 </div>
+                <div>
+                  <select
+                    className="w-full rounded-lg border-gray-900 p-3 text-sm"
+                    onChange={handleChange}
+                    name="category"
+                  >
+                    {foodOptions.map((el) => {
+                      return (
+                        <option key={el.id} value={el.name}>
+                          {el.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
 
                 <div>
-                  <label htmlFor="category">Categories:</label>
+                  <label htmlFor="category">tags:</label>
                   <div className="flex items-center">
                     <input
                       type="text"
@@ -248,7 +290,7 @@ const AddItem = () => {
                       value={categoryInput}
                       onChange={handleCategoryInput}
                       className="w-full rounded-lg border-gray-200 p-3 text-sm"
-                      placeholder="Add category for ex burger pizza (more than 1)"
+                      placeholder="Add category for ex burger pizza..."
                     />
                     <button
                       type="button"
@@ -259,7 +301,7 @@ const AddItem = () => {
                     </button>
                   </div>
                   <div className="mt-2 flex flex-wrap">
-                    {categories.map((category, index) => (
+                    {tags.map((category, index) => (
                       <div
                         key={index}
                         className="bg-gray-200 text-gray-700 px-2 py-1 rounded-full mr-2 mt-2 flex items-center"
@@ -282,7 +324,7 @@ const AddItem = () => {
                     type="submit"
                     className="inline-block w-full rounded-lg bg-black px-5 py-3 font-medium text-white sm:w-auto"
                   >
-                    Send Enquiry
+                    Post
                   </button>
                 </div>
               </form>

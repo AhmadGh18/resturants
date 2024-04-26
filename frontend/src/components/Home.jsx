@@ -1,92 +1,143 @@
-import React, { useEffect, useState } from "react";
-import hero1 from "../assets/images/hero-slider-1.jpg";
-import hero2 from "../assets/images/hero-slider-2.jpg";
-import hero3 from "../assets/images/hero-slider-3.jpg";
-import hero0 from "../assets/images/hero-icon.png";
-import { FaArrowAltCircleRight } from "react-icons/fa";
+import React, { useEffect, useState, useRef } from "react";
+import { FaSearch } from "react-icons/fa";
 import "./template.css";
-import NavigationBar from "./NavigationBar";
+import UserNav from "./UserNav";
+import axiosClient from "../axiosClient";
+import AllRestaurants from "../MainComponents/AllRestaurants";
+import { FaMapMarker } from "react-icons/fa";
+import { Link } from "react-router-dom";
 const Home = () => {
-  const [currentSlidePos, setCurrentSlidePos] = useState(0);
-  const heroSliderItems = [hero1, hero2, hero3];
-
-  const slideNext = () => {
-    setCurrentSlidePos((prevPos) =>
-      prevPos >= heroSliderItems.length - 1 ? 0 : prevPos + 1
-    );
-  };
-
-  const slidePrev = () => {
-    setCurrentSlidePos((prevPos) =>
-      prevPos <= 0 ? heroSliderItems.length - 1 : prevPos - 1
-    );
-  };
-
+  const [restaurants, setRestaurants] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [isFocused, setIsFocused] = useState(false);
+  const blurTimeoutRef = useRef(null);
+  const [allrest, setallrest] = useState([]);
   useEffect(() => {
-    const autoSlideInterval = setInterval(() => {
-      slideNext();
-    }, 7000);
-
-    return () => {
-      clearInterval(autoSlideInterval);
-    };
+    axiosClient.get("/restaurant/getAll").then((data) => {
+      setallrest(data.data.restaurant);
+      const shuffledRestaurants = data.data.restaurants.sort(
+        () => Math.random() - 0.5
+      );
+      const initialRestaurants = shuffledRestaurants.slice(0, 10); // Selecting 10 random restaurants
+      setRestaurants(initialRestaurants); // Setting initial restaurants
+      // setSearchResults(initialRestaurants); // Setting search results initially
+      setallrest(data.data.restaurants);
+    });
   }, []);
 
-  return (
-    <section>
-      <NavigationBar />
-      <main>
-        <article>
-          <section className="hero text-center" aria-label="home" id="home">
-            <ul className="hero-slider" data-hero-slider>
-              {heroSliderItems.map((hero, index) => (
-                <li
-                  key={index}
-                  className={`slider-item ${
-                    index === currentSlidePos ? "active" : ""
-                  }`}
-                  data-hero-slider-item
-                >
-                  <div className="slider-bg">
-                    <img
-                      src={hero}
-                      width="1880"
-                      height="950"
-                      alt=""
-                      className="img-cover"
-                    />
-                  </div>
+  useEffect(() => {
+    const results = allrest.filter(
+      (restaurant) =>
+        restaurant.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        restaurant.name.toLowerCase().includes(searchTerm)
+    );
+    setSearchResults(results);
+  }, [searchTerm, allrest]);
 
-                  <div className="slider-content">
-                    <p className="label-2 section-subtitle slider-reveal">
-                      WELCOME to
-                    </p>
-                    <h1 className="display-1 hero-title slider-reveal">
-                      FeastFinder
-                    </h1>
-                    <p className="body-2 hero-text slider-reveal">
-                      one place for all the restaurants in lebanon
-                    </p>
-                    <a href="#" className="btn btn-primary slider-reveal">
-                      <span className="text text-1"> start browising</span>
-                      <span className="text text-2" aria-hidden="true">
-                        start browising
-                      </span>
-                    </a>
-                  </div>
+  const handleSearchChange = (event) => {
+    const searchTerm = event.target.value.toLowerCase();
+    setSearchTerm(searchTerm);
+
+    const results = restaurants.filter((restaurant) =>
+      restaurant.city.toLowerCase().includes(searchTerm)
+    );
+    setSearchResults(results);
+  };
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    // Delay the onBlur event to allow click event on search result to take effect
+    blurTimeoutRef.current = setTimeout(() => {
+      setIsFocused(false);
+    }, 100); // Adjust the delay time as needed
+  };
+
+  const handleResultClick = () => {
+    // Clear the onBlur timeout to prevent it from firing after a click
+    clearTimeout(blurTimeoutRef.current);
+  };
+
+  return (
+    <div>
+      <UserNav />
+      <div className="homepage">
+        <div className="searchText">
+          <h1>Find city or restaurants</h1>
+          <div className="searchhold">
+            <input
+              type="text"
+              placeholder="   Search for City or restaurant"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              autoComplete="false"
+            />
+            <FaSearch className="searchfa" />
+          </div>
+          <div
+            className="searchResult"
+            style={{ display: isFocused ? "block" : "none" }}
+          >
+            <ul className="resultList">
+              {searchResults.map((restaurant) => (
+                <li
+                  key={restaurant.id}
+                  className="resultItem"
+                  style={{ textAlign: "left" }}
+                  onClick={handleResultClick}
+                >
+                  <Link to={`/singlerestaurant/${restaurant.id}`}>
+                    <div className="searchone">
+                      {/* <img
+                      className="profilelogo"
+                      src={`http://localhost:8000/storage/${restaurant.profile_picture}`}
+                    /> */}
+                      <div className="infobottom">
+                        <span>{restaurant.name}</span>
+
+                        <div
+                          style={{
+                            color: "gray",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                        >
+                          <span>{restaurant.city}</span>
+                          <FaMapMarker />
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
                 </li>
               ))}
             </ul>
-
-            <a href="#" className="hero-btn has-after">
-              <img src={hero0} width="48" height="48" alt="booking icon" />
-
-              <span className="label-2 text-center span">Start browising</span>
-            </a>
-          </section>
-        </article>
-      </main>
-    </section>
+          </div>
+          <Link to="/nearby">
+            <button className="nearbybtn">Show nearby places</button>
+          </Link>
+        </div>
+      </div>
+      {/* <div className="infosection">
+        <div>
+          <p className="head">Find the best resturants </p>
+          <p>near you and any where in lebanon</p>
+        </div>
+        <div>
+          <p className="head">Review resturant see other reviews</p>
+          <p>Add feedback and stars</p>
+        </div>
+        <div>
+          <p className="head">Order an Item</p>
+          <p>Order from any restaurant in lebanon</p>
+        </div>
+      </div> */}
+      <AllRestaurants />
+    </div>
   );
 };
 export default Home;

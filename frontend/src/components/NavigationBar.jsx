@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa"; // Import icons from react-icons
 import "./template.css";
-import logo from "../assets/images/logo.svg";
 const NavigationBar = () => {
   const [isActive, setIsActive] = useState(false);
 
@@ -14,7 +13,7 @@ const NavigationBar = () => {
     <header className="header" data-header>
       <div className="container">
         <Link to="/" className="logo">
-          <img src={logo} width="160" height="50" alt="Grilli - Home" />
+          <img src=" " width="160" height="50" alt="Grilli - Home" />
         </Link>
         <nav className={`navbar ${isActive ? "active" : ""}`}>
           <button

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->unsignedBigInteger('item_id'); // Add item_id as foreign key
             $table->timestamps();
 
-            // Define foreign key constraints
+
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade');
         });

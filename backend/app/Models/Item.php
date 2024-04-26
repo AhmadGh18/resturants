@@ -15,7 +15,8 @@ class Item extends Model
         "description",
         "restaurant_id",
         "thumbnail",
-        "categories"
+        "category",
+        "tags",
 
     ];
 

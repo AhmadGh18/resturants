@@ -171,8 +171,13 @@
         width: 100%;
     }
 
+    .mapholder {
+        width: 100% !important;
+    }
+
 }
 
 .mapholder {
-    height: 500px;
+    height: 400px;
+    width: 50%;
 }

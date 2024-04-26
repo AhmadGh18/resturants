@@ -22,6 +22,7 @@ export const ContextProvider = ({ children }) => {
     profile_picture: null,
     user_id: "",
     type: "",
+    deleviery_range: "",
   });
 
   const [token, _setToken] = useState(localStorage.getItem("AccessToken"));

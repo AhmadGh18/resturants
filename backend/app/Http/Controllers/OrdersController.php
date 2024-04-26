@@ -42,10 +42,8 @@ class OrdersController extends Controller
         // Retrieve the user information associated with the order
         $user = User::findOrFail($order->user_id);
 
-        // Retrieve order items associated with the order
-        $orderItems = Ordered_item::where('order_id', $order->id)->get();
 
-        // Retrieve item information for each order item
+        $orderItems = Ordered_item::where('order_id', $order->id)->get();
         $itemInfo = [];
         foreach ($orderItems as $orderItem) {
             $item = Item::findOrFail($orderItem->item_id);
@@ -54,7 +52,7 @@ class OrdersController extends Controller
                 'name' => $item->title,
                 'description' => $item->description,
                 'price' => $item->price,
-                // Add other item attributes you want to include in the response
+
             ];
         }
 

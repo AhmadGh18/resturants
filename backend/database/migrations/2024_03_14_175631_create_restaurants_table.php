@@ -23,6 +23,8 @@ return new class extends Migration
             $table->integer('stars')->default(0);
             $table->string('phoneNumber');
             $table->string('type');
+            $table->integer('deleviery_range');
+
             $table->string('bio')->nullable();
             $table->string('profile_picture');
         });

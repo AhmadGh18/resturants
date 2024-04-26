@@ -29,122 +29,172 @@ const Signup = () => {
   };
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(formData);
+    // console.log(formData);
     axiosClient
       .post("/user/signup", formData)
       .then((response) => {
         setUser(response.data.user);
         setToken(response.data.token);
-        nav("/main/UserPage");
+        nav("/main/userPage");
 
-        console.log(response);
+        // console.log(response);
       })
       .catch((error) => {
         const response = error.response;
 
         if (response && response.status === 422) {
           setError(response.data.errors);
-          console.log(response.data.errors);
+          // console.log(response.data.errors);
         }
       });
   }
 
   return (
-    <div className="login-root">
-      <div
-        className="box-root flex-flex flex-direction--column"
-        style={{ minHeight: "100vh", flexGrow: 1 }}
-      >
-        <div className="formbg-outer">
-          <div className="formbg">
-            <div className="formbg-inner padding-horizontal--48">
-              <span className="padding-bottom--15">Create account</span>
-              <form id="stripe-login" onSubmit={handleSubmit}>
-                {errors && (
-                  <div className="alert">
-                    {Object.keys(errors).map((key) => (
-                      <p style={{ color: "red" }} key={key}>
-                        {errors[key][0]}
-                      </p>
-                    ))}
-                  </div>
-                )}
-                <div className="field padding-bottom--20 rowdiv">
-                  <div>
-                    <label htmlFor="email">first Name</label>
-                    <input
-                      type="text"
-                      name="first_name"
-                      required
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div>
-                    <div className="field padding-bottom--21">
-                      <label htmlFor="email">Last name</label>
-                      <input
-                        type="text"
-                        name="last_name"
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="field padding-bottom--21">
-                  <label htmlFor="email">Email</label>
-                  <input type="email" name="email" onChange={handleChange} />
-                </div>
-                <div className="field padding-bottom--21">
-                  <label htmlFor="phone">Phone Number</label>
-                  <input
-                    type="text"
-                    name="user_phone"
-                    required
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="field padding-bottom--21">
-                  <label htmlFor="email">password</label>
-                  <input
-                    type="password"
-                    name="password"
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div className="field padding-bottom--24">
-                  <label htmlFor="password">Repeat password</label>
-                  <input
-                    type="password"
-                    name="password_confirmation"
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div className="field padding-bottom--24">
-                  <input
-                    type="submit"
-                    name="submit"
-                    value="Continue"
-                    style={{
-                      backgroundColor: "#f1d133",
-                      border: "none",
-                      outline: "none",
-                    }}
-                  />
-                </div>
-                <div>
-                  Already have an account ?{" "}
-                  <Link to="/newUser/login">Login</Link>
-                </div>
-              </form>
+    <div className="min-h-screen flex items-center justify-center w-full">
+      <div className="bg-white dark:bg-gray-900 shadow-md rounded-lg px-8 py-6 max-w-md">
+        <h1 className="text-2xl font-bold text-center mb-4 dark:textblack-200">
+          Register your Info
+        </h1>
+        <form onSubmit={handleSubmit}>
+          {errors && (
+            <div className="alert">
+              {Object.keys(errors).map((key) => (
+                <p style={{ color: "red" }} key={key}>
+                  {errors[key][0]}
+                </p>
+              ))}
+            </div>
+          )}
+          <div className="flex">
+            <div className="mb-4 mr-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-600 mb-2"
+              >
+                first Name
+              </label>
+              <input
+                onChange={handleChange}
+                type="text"
+                id="text"
+                className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Your name"
+                name="first_name"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="lastname"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-600 mb-2"
+              >
+                last name
+              </label>
+              <input
+                onChange={handleChange}
+                type="text"
+                id="lastname"
+                className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Last name"
+                name="last_name"
+                required
+              />
             </div>
           </div>
-        </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="phone"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-600 mb-2"
+            >
+              phone Number
+            </label>
+            <input
+              onChange={handleChange}
+              type="text"
+              id="email"
+              className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="7143312"
+              name="user_phone"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-600 mb-2"
+            >
+              Email Address
+            </label>
+            <input
+              onChange={handleChange}
+              type="email"
+              id="email"
+              className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="your@email.com"
+              name="email"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-700 mb-2"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="Enter your password"
+              required
+              onChange={handleChange}
+              name="password"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-700 mb-2"
+            >
+              repeat Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="Repeat your password"
+              required
+              onChange={handleChange}
+              name="password_confirmation"
+            />
+            <a
+              href="#"
+              className="text-xs text-gray-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Forgot Password?
+            </a>
+          </div>
+          <div className="flex items-center justify-between mb-4">
+            <Link
+              to="/newUser/login"
+              className="text-xs text-indigo-500 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Already Have Account
+            </Link>
+          </div>
+          <button
+            type="submit"
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Login
+          </button>
+        </form>
       </div>
     </div>
   );
 };
 
 export default Signup;
+/*      */

@@ -31,6 +31,7 @@ class Restaurantrequest extends FormRequest
             "type" => "required|string",
             "profile_picture" => "file|required",
             "phoneNumber" => "required|string",
+            "deleviery_range"=>"required|integer",
 
 
 

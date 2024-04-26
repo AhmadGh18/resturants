@@ -10,7 +10,7 @@ import { Navigation } from "swiper/modules";
 
 const SwiperElement = (props) => {
   return (
-    <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
+    <Swiper navigation={true} modules={[Navigation]} clasNamse="mySwiper">
       {props.images.map((el, index) => (
         <SwiperSlide key={index}>
           <img

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Restaurantrequest;
+use App\Models\Feedback;
 use App\Models\Restaurant;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,18 +12,29 @@ use Illuminate\Support\Facades\DB;
 class RestaurantsController extends Controller
 {
     public function getByUserId($userId)
-    {
-        // Retrieve the restaurant based on the user ID
-        $restaurant = Restaurant::where('user_id', $userId)->first();
+{
+    // Retrieve the restaurant based on the user ID
+    $restaurant = Restaurant::where('user_id', $userId)->first();
 
-        if ($restaurant) {
-            // Return the restaurant data if found
-            return response()->json($restaurant);
-        } else {
-            // Handle the case where no restaurant is found for the given user ID
-            return response()->json(['error' => 'Restaurant not found'], 404);
-        }
+    if ($restaurant) {
+        $feedbacks = Feedback::where('user_id', $userId)->get();
+
+        $ratingCount = $feedbacks->count();
+        $totalRating = $feedbacks->sum('stars');
+        $averageRating = $ratingCount > 0 ? $totalRating / $ratingCount : 0;
+
+
+        return response()->json([
+            'restaurant' => $restaurant,
+            'rating_count' => $ratingCount,
+            'average_rating' => $averageRating,
+        ]);
+    } else {
+        // Handle the case where no restaurant is found for the given user ID
+        return response()->json(['error' => 'Restaurant not found'], 404);
     }
+}
+
 
     public function create(Restaurantrequest $request)
     {
@@ -36,6 +48,7 @@ class RestaurantsController extends Controller
             'latitude' => $data['latitude'],
             'type' => $data['type'],
             'phoneNumber' => $data['phoneNumber'],
+            "deleviery_range"=>$data['deleviery_range']
         ];
 
 
@@ -61,8 +74,7 @@ class RestaurantsController extends Controller
     {
         $latitude = $request->input('latitude');
         $longitude = $request->input('longitude');
-        $radius = 2; // Radius in kilometers
-
+        $radius = 5;
 
         $nearbyRestaurants = DB::table('restaurants')
             ->select('*')
@@ -72,6 +84,7 @@ class RestaurantsController extends Controller
 
         return response()->json($nearbyRestaurants);
     }
+
 
     public function update(Request $request)
     {
@@ -121,5 +134,69 @@ $restaurant->delete();
 
 return response()->json(['message' => 'Restaurant deleted successfully']);
 }
+public function getAll()
+{
+    $restaurants = Restaurant::all()->map(function ($restaurant) {
+        $feedbacks = Feedback::where('restaurant_id', $restaurant->id)
+
+        ->get();
+
+$ratingCount = $feedbacks->count();
+$totalRating = $feedbacks->sum('stars');
+$averageRating = $ratingCount > 0 ? $totalRating / $ratingCount : 0;
+
+
+        return [
+            'id' => $restaurant->id,
+            'name' => $restaurant->name,
+            'city' => $restaurant->city,
+            'phone' => $restaurant->phone,
+            'email' => $restaurant->email,
+            'rating_count' => $ratingCount,
+            'profile_picture' => $restaurant->profile_picture,
+            'average_rating' => $averageRating,
+            "type" =>$restaurant->type
+        ];
+    });
+
+    return response()->json(['restaurants' => $restaurants]);
+}
+
+public function getRestaurantWithItems($id)
+{
+    $restaurant = Restaurant::findOrFail($id);
+    $items = $restaurant->items;
+
+    $feedbacks = Feedback::where('restaurant_id', $id)->get();
+
+    // Filter out feedbacks with a rating of 0
+    $filteredFeedbacks = $feedbacks->filter(function ($feedback) {
+        return $feedback->stars > 0;
+    });
+
+    $ratingCount = $filteredFeedbacks->count();
+    $totalRating = $filteredFeedbacks->sum('stars');
+    $averageRating = $ratingCount > 0 ? $totalRating / $ratingCount : 0;
+
+    return response()->json([
+        'restaurant' => $restaurant,
+        'items' => $items,
+        'averageRating' => $averageRating,
+        'ratingCount' => $ratingCount,
+    ]);
+}
+
+    public function getByType($type)
+    {
+        try {
+            $restaurants = Restaurant::where('type', $type)
+                                     ->inRandomOrder()
+                                     ->limit(5)
+                                     ->get();
+            return response()->json($restaurants);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Internal server error'], 500);
+        }
+    }
 
 }
