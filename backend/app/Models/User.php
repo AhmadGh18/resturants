@@ -76,4 +76,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Saved_restaurant::class);
     }
+    public function views()
+    {
+        return $this->hasMany(View::class);
+    }
+
 }

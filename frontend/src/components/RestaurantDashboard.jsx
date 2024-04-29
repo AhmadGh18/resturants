@@ -7,20 +7,20 @@ import SideBar from "../SideBar";
 
 const RestaurantDashboard = () => {
   const { User, restaurant, setRestaurant } = useStateContext();
-  useEffect(() => {
-    const fetchRestaurantInfo = async () => {
-      try {
-        const response = await axiosClient.get(
-          `/restaurant/getByUserId/${User.id}`
-        );
-        setRestaurant(response.data);
-      } catch (error) {
-        console.error("Error fetching restaurant information:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchRestaurantInfo = async () => {
+  //     try {
+  //       const response = await axiosClient.get(
+  //         `/restaurant/getByUserId/${User.id}`
+  //       );
+  //       setRestaurant(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching restaurant information:", error);
+  //     }
+  //   };
 
-    fetchRestaurantInfo();
-  }, [User.id]);
+  //   fetchRestaurantInfo();
+  // }, [User.id]);
   return (
     <div className="flex">
       <SideBar />

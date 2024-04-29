@@ -37,7 +37,7 @@ const AllCartItems = (props) => {
 
     // Update Cart_items in local storage
     localStorage.setItem("Cart_items", JSON.stringify(updatedItems));
-    setCartItemsUpdated(true); // Set state to trigger re-render
+    setCartItemsUpdated(true);
   };
 
   const handleDecrement = (itemId) => {
@@ -179,7 +179,7 @@ const AllCartItems = (props) => {
                                     <div className="flex">
                                       <button
                                         type="button"
-                                        className="font-medium text-indigo-600 hover:text-indigo-500"
+                                        className="font-medium text-orange-400 hover:text-indigo-500"
                                       >
                                         Remove
                                       </button>
@@ -205,7 +205,7 @@ const AllCartItems = (props) => {
                   <div className="mt-6">
                     <Link
                       to={`/checkout`}
-                      className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                      className="flex items-center justify-center rounded-md border border-transparent bg-orange-400 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-orange-400"
                     >
                       Checkout
                     </Link>

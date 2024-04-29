@@ -17,82 +17,57 @@ const AllItems = () => {
     });
   }, []);
 
-  const filterItemsByCategory = (category) => {
-    setCategoryFilter(category);
-    setSearchTerm("");
-  };
+  // Filtered items by name
+  const filteredItemsByName = items.filter((item) =>
+    item.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-  const filteredItemsByCategory = categoryFilter
-    ? items.filter((el) => el.category === categoryFilter)
-    : items;
-
+  // Filter items by price
   const filteredItemsByPrice = priceFilter
-    ? items.filter((el) => {
-        if (priceFilter === "1-5") {
-          return el.price >= 1 && el.price <= 5;
-        } else if (priceFilter === "5-10") {
-          return el.price > 5 && el.price <= 10;
-        } else {
-          return el.price > 10;
+    ? filteredItemsByName.filter((item) => {
+        switch (priceFilter) {
+          case "1-5":
+            return item.price >= 1 && item.price <= 5;
+          case "5-10":
+            return item.price > 5 && item.price <= 10;
+          case "10":
+            return item.price > 10;
+          default:
+            return true;
         }
       })
-    : filteredItemsByCategory;
-
-  const filteredItemsByName = searchTerm
-    ? items.filter((el) =>
-        el.title.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : filteredItemsByPrice;
-
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-    setCategoryFilter(null);
-    setPriceFilter(null);
-  };
-
-  const handlePriceFilterChange = (priceRange) => {
-    setPriceFilter(priceRange);
-    setShowPriceFilter(false);
-  };
+    : filteredItemsByName;
 
   return (
     <>
       <UserNav />
       {/* <TopSlider /> */}
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-
-          alignItems: "center",
-        }}
-      >
-        <center>
-          <input
-            className="searchitem"
-            type="text"
-            style={{
-              margin: "auto",
-              border: "0px black solid",
-              height: "40px",
-              width: "400px",
-            }}
-            placeholder="   Search by item name,category"
-            value={searchTerm}
-            onChange={handleSearchChange}
-          />
-        </center>
-        <select style={{ padding: "5px", margin: "5px" }}>
-          <option className="">Price</option>
-          <option className="">1-5$</option>
-          <option className="">6-10</option>
-          <option className="">10+</option>
+      <form className="max-w-lg mx-auto flex items-center justify-center allsearc mt-10 mb-9">
+        <select
+          className="border border-black rounded-l-lg py-2 px-4"
+          style={{ width: "150px" }}
+          onChange={(e) => setPriceFilter(e.target.value)}
+          value={priceFilter || "All"}
+        >
+          <option value="All">All</option>
+          <option value="1-5">$1-$5</option>
+          <option value="5-10">$5-$10</option>
+          <option value="10">$10+</option>
         </select>
-      </div>
+
+        <input
+          type="text"
+          className="border border-black rounded-r-lg py-2 px-4"
+          style={{ width: "400px", height: "40px" }}
+          placeholder="Search for restaurant"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </form>
 
       <div className="allItemshold">
-        {filteredItemsByName.map((el) => (
+        {filteredItemsByPrice.map((el) => (
           <SingleItemCard
             restaurant_name={el.restaurant_name}
             key={el.id}

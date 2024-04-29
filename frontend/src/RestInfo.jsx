@@ -1,5 +1,11 @@
 import React from "react";
-import { FaPhone, FaStar, FaUtensils } from "react-icons/fa";
+import {
+  FaBookmark,
+  FaHeadSideCough,
+  FaPhone,
+  FaStar,
+  FaUtensils,
+} from "react-icons/fa";
 
 const RestInfo = (props) => {
   return (
@@ -81,6 +87,16 @@ const RestInfo = (props) => {
                   <FaPhone className=" fas mr-2 text-lg text-blueGray-400" />
                   {props.phoneNumber}
                 </div>
+              </div>
+              <div className="mb-2 text-blueGray-600">
+                {/* <i className="fas fa-university "></i> */}
+                <center>
+                  <FaBookmark
+                    className=" fas mr-2 text-lg text-blueGray-400"
+                    style={{ fontSize: "23px" }}
+                    onClick={props.handlesave}
+                  />
+                </center>
               </div>
               <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
                 <div className="flex flex-wrap justify-center">

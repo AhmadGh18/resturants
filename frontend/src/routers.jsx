@@ -5,20 +5,15 @@ import LoginPage from "./components/LoginPage";
 import Signup from "./components/Signup";
 import Default from "./MainComponents/Default";
 import Guest from "./MainComponents/Guest";
-import UserPage from "./MainComponents/UserPage";
 import RestaurantLogin from "./components/RestaurantLogin";
 import AddRestaurant from "./components/AddRestaurant";
 import Map from "./MainComponents/Map";
-import RestaurantDashboard from "./components/RestaurantDashboard";
-
-import Orders from "./components/Orders";
 import "./index.css";
 import AskName from "./components/AskName";
 import AddLocation from "./AddLocation";
 import AddProfile from "./AddProfile";
 
 import AddItem from "./components/AddItem";
-import Analytic from "./Analytics";
 import AllRestaurants from "./MainComponents/AllRestaurants";
 import AllItems from "./components/AllItems";
 import SingleItem from "./SingleItem";
@@ -26,15 +21,26 @@ import SingleRestaurant from "./SingleRestaurant";
 import Itemss from "./Itemss";
 import NearbyPlace from "./NearbyPlace";
 import TestSwiper from "./SimilarSwiper";
-import ItemCard from "./MainComponents/ItemCard";
-import MeetingCard from "./components/RestaurantItemsCard";
+
 import SingleProductDetails from "./singe/SingleProductDetails";
 import Checkout from "./Checkout";
 import AddLocationAndSubmit from "./AddLocationAndSubmit";
 import AllCartItems from "./AllCartItems";
-import DashboarOwner from "./RestaurantDashboard/DashboarOwner";
 
 import PersonalInfo from "./PersonalInfo";
+import Myhome from "./Myhome";
+import UserSavedRestaurant from "./UserSavedRestaurant";
+import UserSavedItems from "./UserSavedItems";
+import TopCitiesChart from "./Chart1";
+import Alone from "./Alone";
+import SimpleAreaChart from "./MainComponents/ProfileView";
+import WholeDashboard from "./RestaurantDashboard/WholeDashboard";
+import BestPlace from "./BestPlace";
+import ManageItem from "./ManageItem";
+import ItemOnwer from "./ItemOnwer";
+import RestaurantItemsCard from "./components/RestaurantItemsCard";
+import Orders from "./Orders";
+import SingleOrder from "./SingleOrder";
 const router = createBrowserRouter([
   {
     path: "/home",
@@ -78,10 +84,10 @@ const router = createBrowserRouter([
         path: "/main",
         element: <Navigate to="/main/homePage" />,
       },
-      {
-        path: "/main/userPage",
-        element: <UserPage />,
-      },
+      // {
+      //   path: "/main/userPage",
+      //   element: <UserPage />,
+      // },
       {
         path: "/main/Addrestaurant",
         element: <AddRestaurant />,
@@ -105,30 +111,36 @@ const router = createBrowserRouter([
         element: <RestaurantPage />,
         children: [
           {
-            path: "/main/restaurantPage",
-            element: <Navigate to="/main/restaurantPage/dashboard" />,
+            path: "/main/restaurantPage/dashboard",
+            element: <WholeDashboard />,
           },
           {
-            path: "/main/restaurantPage/dashboard",
-            element: <RestaurantDashboard />,
-            children: [
-              {
-                path: "/main/restaurantPage/dashboard/additem",
-                element: <AddItem />,
-              },
-              {
-                path: "/main/restaurantPage/dashboard",
-                element: <Analytic />,
-              },
-              // {
-              //   path: "/main/restaurantPage/dashboard/ManageItems",
-              //   element: <ManageItem />,
-              // },
-              {
-                path: "/main/restaurantPage/dashboard/PersonalInfo",
-                element: <PersonalInfo />,
-              },
-            ],
+            path: "/main/restaurantPage/dashboard/PersonalInfo",
+            element: <PersonalInfo />,
+          },
+          {
+            path: "/main/restaurantPage/dashboard/BestPlace",
+            element: <BestPlace />,
+          },
+          {
+            path: "/main/restaurantPage/dashboard/additem",
+            element: <AddItem />,
+          },
+          {
+            path: "/main/restaurantPage/dashboard/manageItem",
+            element: <ManageItem />,
+          },
+          {
+            path: "/main/restaurantPage/dashboard/singleItemToedit/:id",
+            element: <ItemOnwer />,
+          },
+          {
+            path: "/main/restaurantPage/dashboard/Orders",
+            element: <Orders />,
+          },
+          {
+            path: "/main/restaurantPage/dashboard/Orders/singleorder/:id",
+            element: <SingleOrder />,
           },
         ],
       },
@@ -187,8 +199,40 @@ const router = createBrowserRouter([
     element: <AllCartItems />,
   },
   {
-    path: "/PersonalInfo",
-    element: <PersonalInfo />,
+    path: "/myhome",
+    element: <Myhome />,
+    children: [
+      {
+        path: "/myhome",
+        element: <Navigate to="/myhome/savedrestaurant" />,
+      },
+      {
+        path: "/myhome/savedrestaurant",
+        element: <UserSavedRestaurant />,
+      },
+      {
+        path: "/myhome/savedItems",
+        element: <UserSavedItems />,
+      },
+    ],
+  },
+  {
+    path: "/TopCitiesChart",
+    element: <TopCitiesChart />,
+  },
+  {
+    path: "/Alone",
+    element: <Alone />,
+    children: [
+      {
+        path: "/Alone/chart",
+        element: <SimpleAreaChart />,
+      },
+    ],
+  },
+  {
+    path: "/RestaurantItemsCard",
+    element: <RestaurantItemsCard />,
   },
 ]);
 

@@ -14,7 +14,10 @@ return new class extends Migration
             $table->unsignedBigInteger('order_id'); // Add order_id as foreign key
             $table->unsignedBigInteger('item_id'); // Add item_id as foreign key
             $table->timestamps();
+            $table->integer('quantity');
+            $table->unsignedBigInteger('restaurant_id'); // Add restaurant_id column
 
+            $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
 
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade');

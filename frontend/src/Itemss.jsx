@@ -10,6 +10,7 @@ const Itemss = (props) => {
           <a href="#">
             <img
               className="w-full"
+              style={{ height: "200px" }}
               src={`http://localhost:8000/storage/${props.thumbnail}`}
               alt="Sunset in the mountains"
             />
@@ -30,32 +31,6 @@ const Itemss = (props) => {
         <div className="px-6 pb-3">
           <p className="text-gray-500 text-sm">price : {props.price}</p>
         </div>
-        {/* <div className="px-6 py-4 flex flex-row items-center">
-          <span
-            href="#"
-            className="py-1 text-sm font-regular text-gray-900 mr-1 flex flex-row justify-between items-center flex-wrap"
-          >
-            {props.tags.split(",").map((tag, index) => (
-              <span
-                key={index}
-                style={{
-                  display: "inline-block",
-                  backgroundColor: "#7c7a7a",
-                  color: "white",
-                  padding: "0.25rem 0.5rem",
-                  borderRadius: "0.25rem",
-                  marginRight: "0.5rem",
-                  marginBottom: "0.5rem",
-                  fontSize: "0.875rem",
-                  fontWeight: "500",
-                  cursor: "pointer",
-                }}
-              >
-                {tag.trim()}
-              </span>
-            ))}
-          </span>
-        </div> */}
       </div>
     </div>
   );

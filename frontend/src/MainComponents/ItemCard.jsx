@@ -3,8 +3,19 @@ import "./Cartitem.css";
 import img1 from "../assets/images/home-tab3-hero-1367x520-prog.jpg";
 import { FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import axiosClient from "../axiosClient";
+import { useStateContext } from "../context/ContextProvider";
 
 const ItemCard = (props) => {
+  const { id, User, token } = useStateContext();
+  const Profileview = () => {
+    if (token) {
+      console.log("yes");
+      axiosClient.post(`/profileview/${User.id}/${props.id}`).then((res) => {
+        console.log(res);
+      });
+    }
+  };
   return (
     <div className="card">
       <div className="img">
@@ -39,6 +50,7 @@ const ItemCard = (props) => {
           </p>
         </div>
         <Link
+          onClick={Profileview}
           to={`/singlerestaurant/${props.id}`}
           style={{
             backgroundColor: "#52a0e9",

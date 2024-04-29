@@ -7,6 +7,7 @@ import SideBar from "../SideBar";
 import Stars from "../Stars";
 import Table from "./Table";
 import Chart5 from "./Chart5";
+import ProfileView from "../MainComponents/ProfileView";
 
 const Mainer = () => {
   return (
@@ -17,8 +18,7 @@ const Mainer = () => {
       </div>
 
       <div>
-        <Table />
-        {/* <Stars /> */}
+        <ProfileView />
       </div>
       <div className="m-8">
         <Chart3 />
@@ -27,6 +27,7 @@ const Mainer = () => {
         <Stars />
         <Chart5 />
       </div>
+      <ProfileView />
     </div>
   );
 };

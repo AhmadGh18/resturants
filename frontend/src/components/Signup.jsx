@@ -35,7 +35,7 @@ const Signup = () => {
       .then((response) => {
         setUser(response.data.user);
         setToken(response.data.token);
-        nav("/main/userPage");
+        nav("/home");
 
         // console.log(response);
       })

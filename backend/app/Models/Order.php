@@ -11,8 +11,14 @@ class Order extends Model
     protected $fillable = [
         "restaurant_id",
         "user_id",
-        "price",
-        "destination",
+        "longitude",
+        "latitude",
+        "first_name",
+        "last_name",
+        "phone",
+        "notes",
+        "city",
+
         "state",
     ];
     public function restaurant()

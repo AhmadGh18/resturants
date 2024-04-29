@@ -35,6 +35,91 @@ class SavedItemController extends Controller
             return response()->json(['message' => 'Item saved successfully'], 200);
         }
     }
+    public function getUserSavedItems(Request $request)
+    {
+        $userId = $request->input('id');
+
+        try {
+            // Fetch user's saved items along with item details
+            $savedItems = Saved_item::where('user_id', $userId)
+                ->with('item') // Load the related item data
+                ->get();
+
+            // Return the saved items along with item details
+            return response()->json([
+                'success' => true,
+                'savedItems' => $savedItems
+            ]);
+        } catch (\Exception $e) {
+            // Handle any errors
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500); // Internal Server Error
+        }
+}
+
+
+    public function unlike(Request $request, $userId, $itemId)
+    {
+        try {
+            // Find the saved item by user ID and item ID
+            $savedItem = Saved_item::where('user_id', $userId)
+                ->where('item_id', $itemId)
+                ->first();
+
+            if ($savedItem) {
+                // Delete the saved item if found
+                $savedItem->delete();
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Item unliked successfully'
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Saved item not found'
+                ], 404); // Not Found
+            }
+        } catch (\Exception $e) {
+            // Handle any errors
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500); // Internal Server Error
+        }
+    }
+
+
+    public function checkifItemissaved(Request $request, $userId, $itemId)
+    {
+        try {
+            // Check if the item is saved for the user
+            $savedItem = Saved_item::where('user_id', $userId)
+                ->where('item_id', $itemId)
+                ->first();
+
+            // Return 1 if saved, 0 if not
+            if ($savedItem) {
+                return response()->json([
+                    'success' => true,
+                    'saved' => 1
+                ]);
+            } else {
+                return response()->json([
+                    'success' => true,
+                    'saved' => 0
+                ]);
+            }
+        } catch (\Exception $e) {
+            // Handle any errors
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500); // Internal Server Error
+        }
+    }
 
 
 

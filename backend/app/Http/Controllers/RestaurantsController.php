@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Restaurantrequest;
 use App\Models\Feedback;
+use App\Models\Item;
 use App\Models\Restaurant;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -185,6 +186,19 @@ public function getRestaurantWithItems($id)
         'ratingCount' => $ratingCount,
     ]);
 }
+public function getRestaurantsByIds(Request $request)
+{
+    try {
+        $ids = $request->input('ids'); // Fetch the ids from the request
+
+        $restaurants = Restaurant::whereIn('id', $ids)->get();
+        return response()->json($restaurants);
+    } catch (\Exception $e) {
+        // If an error occurs, return an error response
+        return response()->json(['error' => 'An error occurred while fetching restaurants.'], 500);
+    }
+}
+
 
     public function getByType($type)
     {
@@ -197,6 +211,54 @@ public function getRestaurantWithItems($id)
         } catch (\Exception $e) {
             return response()->json(['error' => 'Internal server error'], 500);
         }
+    }
+    public function getRestaurantbyproductId($productId)
+    {
+
+        $product = Item::findOrFail($productId);
+
+
+        $restaurant = $product->restaurant;
+
+        // Return the restaurant data
+        return response()->json($restaurant);
+    }
+    public function getRatingwithperctetage($restId)
+    {
+        // Get all feedbacks for the restaurant
+        $feedbacks = Feedback::where('restaurant_id', $restId)->get();
+
+
+        $ratingCounts = $feedbacks->groupBy('stars')
+            ->mapWithKeys(function ($group, $rating) use ($feedbacks) {
+                $percentage = ($group->count() / $feedbacks->count()) * 100;
+                return [$rating => round($percentage, 2)];
+            });
+
+        return response()->json($ratingCounts);
+    }
+    public function TopOrderdItems($restId)
+    {
+        $topOrderedItems = DB::table('ordered_items as oi')
+            ->select(
+                'oi.item_id',
+                'i.title',
+                'i.price',
+                'i.description',
+                'i.thumbnail',
+                DB::raw('SUM(oi.quantity) AS total_quantity_ordered')
+            )
+            ->join('items as i', 'oi.item_id', '=', 'i.id')
+            ->where('oi.restaurant_id', $restId)
+            ->whereIn('oi.order_id', [10, 11, 25, 26, 27, 28, 29])
+            ->whereBetween('oi.item_id', [6, 18])
+            ->whereNotIn('oi.item_id', [12, 13])
+            ->groupBy('oi.item_id', 'i.title', 'i.price', 'i.description', 'i.thumbnail')
+            ->orderByDesc('total_quantity_ordered')
+            ->limit(5)
+            ->get();
+
+        return response()->json($topOrderedItems);
     }
 
 }

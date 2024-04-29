@@ -27,15 +27,14 @@ const SimilarItems = (props) => {
   const [swiperRef, setSwiperRef] = useState(null);
 
   return (
-    <div>
+    <div className="hoho">
       {items && (
         <div>
           <Swiper
-            className="singlswip"
+            className=""
             modules={[Virtual, Navigation, Pagination]}
             onSwiper={setSwiperRef}
             slidesPerView={3}
-            centeredSlides={true}
             spaceBetween={30}
             autoplay={{
               disableOnInteraction: true,
@@ -64,13 +63,35 @@ const SimilarItems = (props) => {
           >
             {items.map((el, index) => (
               <SwiperSlide key={index}>
-                <Itemss
-                  id={el.id}
-                  key={el.id}
-                  title={el.title}
-                  price={el.price}
-                  thumbnail={el.thumbnail}
-                />
+                <div className="rounded overflow-hidden shadow-lg w-100 h-100">
+                  <a href="#"></a>
+                  <div className="relative">
+                    <a href="#">
+                      <img
+                        className="w-full"
+                        src={`http://localhost:8000/storage/${el.thumbnail}`}
+                        alt="Sunset in the mountains"
+                        style={{ height: "200px", width: "100%" }}
+                      />
+                      <div className="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25"></div>
+                    </a>
+                    <a href={`/singleProductDetails/${el.id}`}>
+                      <div className="absolute bottom-0 left-0 bg-orange-400 px-4 py-2 text-white text-sm hover:bg-white hover:text-indigo-600 transition duration-500 ease-in-out">
+                        Details
+                      </div>
+                    </a>
+                  </div>
+                  <div className="px-4 py-3">
+                    <a
+                      href="#"
+                      className="font-semibold text-lg inline-block hover:text-indigo-600 transition duration-500 ease-in-out"
+                    >
+                      {el.title}
+                    </a>
+                    <p className="text-gray-500 text-sm">{el.description}</p>
+                    <p className="text-gray-500 text-sm">{el.price} $</p>
+                  </div>
+                </div>
               </SwiperSlide>
             ))}
           </Swiper>

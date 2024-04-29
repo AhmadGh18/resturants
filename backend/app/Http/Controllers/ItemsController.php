@@ -9,6 +9,7 @@ use App\Models\Restaurant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class ItemsController extends Controller
 {
@@ -16,6 +17,8 @@ class ItemsController extends Controller
     {
         $items = Item::select('items.*', 'restaurants.name as restaurant_name', 'restaurants.profile_picture')
                      ->join('restaurants', 'items.restaurant_id', '=', 'restaurants.id')
+                     ->inRandomOrder() // Shuffle the items
+                     ->limit(20) // Limit the number of items to 20
                      ->get();
 
         return $items;
@@ -123,7 +126,10 @@ class ItemsController extends Controller
 
         $responseData = [
             'item' => $item,
-            'restaurant_name' => $item->restaurant->name
+            'restaurant_name' => $item->restaurant->name,
+            'images' => $item->images
+
+
         ];
 
         return response()->json($responseData);
@@ -151,5 +157,89 @@ class ItemsController extends Controller
         ];
 
         return response()->json($responseData);
+    }
+    public function search(Request $request)
+    {
+        $searchTerm = $request->input('q');
+
+        // Perform a search query on your Item model
+        $items = Item::where('title', 'like', '%' . $searchTerm . '%')->limit(20)->get();
+
+        return response()->json($items);
+    }
+    public function totalItemsPosted($restId)
+    {
+        $totalItems = Item::where('restaurant_id', $restId)->count();
+        return response()->json(['total_items' => $totalItems]);
+    }
+    public function updateItem(Request $request)
+    {
+
+        $request->validate([
+            'id' => 'required|exists:items,id',
+            'title' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'category' => 'required|string|max:255',
+            'description' => 'required|string',
+            'thumbnail' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max file size if needed
+            'imagesToDelete' => 'array', // Ensure it's an array
+            'imagesToDelete.*' => 'exists:images,id', // Check if each ID exists in the item_images table
+            'tags'=>'string', //
+        ]);
+
+        $itemId = $request->id;
+
+        // Find the item
+        $item = Item::findOrFail($itemId);
+
+
+        $item->title = $request->title;
+        $item->price = $request->price;
+        $item->category = $request->category;
+        $item->description = $request->description;
+        $item->tags=$request->tags;
+
+        // Handle thumbnail
+        if ($request->hasFile('thumbnail')) {
+            $thumbnailFile = $request->file('thumbnail');
+            $thumbnailPath = $thumbnailFile->store('thumbnails', 'public');
+            $itemData['thumbnail'] = $thumbnailPath;
+            $item->thumbnail = $thumbnailPath; // Update thumbnail path in the database
+
+        }
+
+        // Handle images deletion
+        if ($request->has('imagesToDelete')) {
+            foreach ($request->imagesToDelete as $imageId) {
+                // Find the image to delete
+                $image = Image::findOrFail($imageId);
+
+                // Delete the image from storage
+                Storage::delete($image->imgUrl); // Assuming the image path is stored in the database
+
+                // Delete the image record from the database
+                $image->delete();
+            }
+        }
+
+        // Save the updated item
+        $item->save();
+
+        return response()->json(['message' => 'Item updated successfully'], 200);
+    }
+    public function deleteItem($itemId)
+    {
+        // Find the item
+        $item = Item::findOrFail($itemId);
+
+        // Delete the images from storage
+        foreach ($item->images as $image) {
+            Storage::delete($image->imgUrl);
+        }
+
+        // Delete the item
+        $item->delete();
+
+        return response()->json(['message' => 'Item and associated images deleted successfully']);
     }
 }

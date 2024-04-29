@@ -1,10 +1,63 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
 * {
     text-transform: capitalize;
+    font-family: "Ubuntu", sans-serif !important;
+
+
 }
+
+.ubuntu-light {
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.ubuntu-regular {
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.ubuntu-medium {
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.ubuntu-bold {
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.ubuntu-light-italic {
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 300;
+    font-style: italic;
+}
+
+.ubuntu-regular-italic {
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.ubuntu-medium-italic {
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.ubuntu-bold-italic {
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 700;
+    font-style: italic;
+}
+
 
 .navbar {
     background-color: #e9663b;
@@ -13,7 +66,6 @@
 }
 
 .navbar-logo {
-    /* font-family: "Pacifico", cursive; */
     /* font-weight: 600; */
     font-style: normal;
     font-size: 31px !important;
@@ -686,14 +738,22 @@
     }
 
     .allItemshold {
-        margin: 0 !important;
         width: 100%;
+        display: flex !important;
+        justify-content: center !important;
+
+        margin: 0 !important;
+        align-items: center;
+        flex-direction: column;
     }
 
     .item1 {
         margin: auto;
     }
 
+    .carsingle {
+        width: 100%;
+    }
 
 }
 
@@ -707,7 +767,7 @@
 }
 
 .item11 {
-    background-color: #eacf33;
+    background-color: #d3b509;
 
 }
 
@@ -1313,12 +1373,17 @@
     display: flex;
     width: 100% !important;
     align-items: center;
+    justify-content: space-around;
 }
 
 .firstCharts div {
     background-color: white;
     margin: 10px;
     height: 300px;
+    width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 @media screen and (max-width: 768px) {
@@ -1344,5 +1409,16 @@
 
 .stathold a {
     font-size: 12px;
+
+}
+
+.hoho {
+    margin: 0 100px;
+}
+
+@media screen and (max-width: 768px) {
+    .hoho {
+        margin: 0;
+    }
 
 }

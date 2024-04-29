@@ -23,27 +23,28 @@ const AddItem = () => {
   });
   const nav = useNavigate();
   const [restaurantId, setRestaurantId] = useState(null); // Track restaurant ID
+
   useEffect(() => {
     if (User.has_restaurant == 0) {
       return nav("/newUser/login");
     }
   }, []);
-  useEffect(() => {
-    const fetchRestaurantInfo = async () => {
-      try {
-        const response = await axiosClient.get(
-          `/restaurant/getByUserId/${User.id}`
-        );
-        setRestaurant(response.data.restaurant);
-        setRestaurantId(response.data.restaurant.id);
-        console.log("data recevied are", response.data);
-      } catch (error) {
-        console.error("Error fetching restaurant information:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchRestaurantInfo = async () => {
+  //     try {
+  //       const response = await axiosClient.get(
+  //         `/restaurant/getByUserId/${User.id}`
+  //       );
+  //       setRestaurant(response.data.restaurant);
+  //       setRestaurantId(response.data.restaurant.id);
+  //       console.log("data recevied are", response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching restaurant information:", error);
+  //     }
+  //   };
 
-    fetchRestaurantInfo();
-  }, [User.id]);
+  //   fetchRestaurantInfo();
+  // }, [User.id]);
   if (token) {
     if (User.has_restaurant == 0) {
       return nav("/newUser/login");
@@ -129,7 +130,7 @@ const AddItem = () => {
     formDataObject.append("title", formData.title);
     formDataObject.append("price", formData.price);
     formDataObject.append("description", formData.description);
-    formDataObject.append("restaurant_id", restaurantId);
+    formDataObject.append("restaurant_id", restaurant.restaurant.id);
     formDataObject.append("thumbnail", formData.thumbnail);
     formDataObject.append("category", formData.category);
 
@@ -141,7 +142,7 @@ const AddItem = () => {
     axiosClient
       .post("/items/addItem", formDataObject)
       .then((response) => {
-        nav("/main/restaurantPage/dashboard/ManageItems");
+        nav("/main/restaurantPage/dashboard/manageItem");
       })
       .catch((error) => {
         console.error("Error:", error);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaCartPlus, FaShoppingBasket } from "react-icons/fa";
+import { FaCartPlus, FaHeart, FaShoppingBasket } from "react-icons/fa";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import { Link, useParams } from "react-router-dom";
@@ -8,6 +8,8 @@ import SimilarItems from "../SimilarItems";
 import ExploreRestaurants from "../ExploreRestaurants";
 import UserNav from "../components/UserNav";
 import AllCartItems from "../AllCartItems";
+import { colors } from "@mui/material";
+import { useStateContext } from "../context/ContextProvider";
 
 const SingleProductDetails = (props) => {
   const { id } = useParams();
@@ -17,16 +19,71 @@ const SingleProductDetails = (props) => {
     item_id: id,
     count: 0,
   });
+  const { User, setUser } = useStateContext();
+
+  const [restaurantId, setrestaurantId] = useState(null);
   const [cartsize, setcartsize] = useState(null);
   const [displaied, setisdiplaied] = useState(false);
+
+  const [isItemSaved, setIsitemsaved] = useState(false);
+
+  useEffect(() => {
+    axiosClient
+      .get("/user")
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  const saveItem = () => {
+    setIsitemsaved(true);
+    axiosClient
+      .post("/user/likeitem", { user_id: User.id, item_id: id })
+      .then(() => {
+        setIsitemsaved(true);
+      })
+      .catch((err) => {
+        setIsitemsaved(false);
+      });
+  };
+  function unlike() {
+    setIsitemsaved(false);
+
+    axiosClient
+      .delete(`/user/unlikeItem/${User.id}/${id}`)
+      .then(() => {
+        setIsitemsaved(false);
+      })
+      .catch((err) => {
+        setIsitemsaved(true);
+      });
+  }
   function toglledisplay() {
     setisdiplaied(!displaied);
   }
+  useEffect(() => {
+    if (User && User.id) {
+      axiosClient.get(`/checkifItemissaved/${User.id}/${id}`).then((resp) => {
+        if (resp.data.saved == 1) {
+          setIsitemsaved(true);
+        } else {
+          setIsitemsaved(false);
+        }
+      });
+    }
+  }, [User.id, id]);
+  useEffect(() => {
+    axiosClient
+      .get(`/getRestaurantbyproductId/${id}`)
+      .then((response) => setrestaurantId(response.data.id));
+  }, []);
   const [item, setItem] = useState(null);
   useEffect(() => {
     axiosClient.get(`/items/${id}`).then((response) => {
       setItem(response.data);
-      console.log(response.data);
     });
   }, []);
   useEffect(() => {
@@ -39,24 +96,19 @@ const SingleProductDetails = (props) => {
       JSON.parse(window.localStorage.getItem("Cart_items")) || [];
     setcartsize(cartItems.length);
   }, []);
-  const handleChange = (e) => {
-    const { value } = e.target;
-    setcount(parseInt(value)); // Update count state with parsed integer value
-  };
+
   function addtocart(itemid, qnty) {
-    // Get the existing cart items from local storage
     const cart = JSON.parse(window.localStorage.getItem("Cart_items")) || [];
 
     // Check if an item with the same ID already exists in the cart
     const existingItemIndex = cart.findIndex((item) => item.item_id === itemid);
-
-    // If item exists in the cart, do nothing
     if (existingItemIndex !== -1) {
       return;
     }
 
-    // If item doesn't exist, add it to the cart
-    cart.push({ item_id: itemid, qnty: qnty });
+    if (restaurantId) {
+      cart.push({ item_id: itemid, qnty: qnty, restaurant_id: restaurantId });
+    }
 
     window.localStorage.setItem("Cart_items", JSON.stringify(cart));
     const cartItems =
@@ -77,12 +129,20 @@ const SingleProductDetails = (props) => {
                   modules={[Navigation]}
                   style={{ height: "100%" }}
                 >
+                  <SwiperSlide>
+                    <img
+                      src={`http://localhost:8000/storage/${item.item.thumbnail}`}
+                      alt="not img"
+                      className="rounded-lg cursor-pointer mx-auto  h-full w-full"
+                      style={{ height: "100%" }}
+                    />
+                  </SwiperSlide>
                   {item.item.images.map((el) => {
                     return (
                       <SwiperSlide key={el.id}>
                         <img
                           src={`http://localhost:8000/storage/${el.imgUrl}`}
-                          alt=""
+                          alt="not img"
                           className="rounded-lg cursor-pointer mx-auto  h-full w-full"
                           style={{ height: "100%" }}
                         />
@@ -94,7 +154,7 @@ const SingleProductDetails = (props) => {
             </div>
             <div className="producat_content w-full lg:w-1/2">
               <p className="company_txt text-orange-500 uppercase font-semibold tracking-wider text-sm">
-                {item.restaurant_name}
+                {item.item.restaurant_name}
               </p>
               <h2 className="text-2xl lg:text-4xl my-4">{item.item.title}</h2>
               <p className="producat_des text-base lg:text-lg leading-relaxed text-gray-600">
@@ -169,6 +229,13 @@ const SingleProductDetails = (props) => {
                   </svg>
                   Add to Cart
                 </button>
+                <div className="bg-gray-300 ml-3 p-2">
+                  <FaHeart
+                    // className="text-white"
+                    onClick={isItemSaved ? unlike : saveItem}
+                    style={{ color: isItemSaved ? "red" : "white" }}
+                  />
+                </div>
               </div>
             </div>
           </div>

@@ -1,16 +1,15 @@
 import React from "react";
-import Chart1 from "../Chart1";
-import Chart2 from "../Chart2";
+import SideBar from "../SideBar";
 import Stars from "../Stars";
+import TopCitiesChart from "../Chart1";
+import Chart2 from "../Chart2";
 import Chart3 from "../Chart3";
 import Chart4 from "../Chart4";
-import SideBar from "../SideBar";
-import Mainer from "./Mainer";
-import TopInfo from "./TopInfo";
 import Chart5 from "./Chart5";
 import ProfileView from "../MainComponents/ProfileView";
+import TopInfo from "./TopInfo";
 
-const DashboardOwner = () => {
+const WholeDashboard = () => {
   return (
     <div className="flex">
       <div className="stat">
@@ -18,20 +17,20 @@ const DashboardOwner = () => {
         <div>
           <div className="firstCharts">
             <ProfileView />
-            {/* <Chart1 /> */}
+            <TopCitiesChart />
           </div>
+
+          <div></div>
           <div className="m-8">
             <Chart3 />
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between ml-10">
             <Stars />
-            <Chart5 />
           </div>
-          <ProfileView />
         </div>
       </div>
     </div>
   );
 };
 
-export default DashboardOwner;
+export default WholeDashboard;

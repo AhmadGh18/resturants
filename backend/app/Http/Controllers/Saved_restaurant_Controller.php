@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Saved_item;
 use App\Models\Saved_restaurant;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class Saved_restaurant_Controller extends Controller
@@ -53,5 +55,38 @@ class Saved_restaurant_Controller extends Controller
             'message' => 'Saved item removed successfully',
         ]);
     }
+    public function userSavedRestaurants(Request $req)
+    {
+        $userId = $req->input('id');
+
+        try {
+            // Check if the user exists
+            $user = User::find($userId);
+
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User not found'
+                ], 404); // Not Found
+            }
+
+            // Fetch the user's saved restaurants along with their info
+            $savedRestaurants = $user->savedRestaurants()->with('restaurant')->get();
+
+            // Return the saved restaurants with name and profile picture
+            return response()->json([
+                'success' => true,
+                'savedRestaurants' => $savedRestaurants
+            ]);
+        } catch (\Exception $e) {
+            // Handle any errors
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500); // Internal Server Error
+        }
+    }
+
+
 
 }

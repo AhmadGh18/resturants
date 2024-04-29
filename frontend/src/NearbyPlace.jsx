@@ -3,6 +3,7 @@ import axiosClient from "./axiosClient.js";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
+import UserNav from "./components/UserNav.jsx";
 
 const NearbyPlace = () => {
   const [latitude, setLatitude] = useState(33.883346253230904);
@@ -102,6 +103,8 @@ const NearbyPlace = () => {
           const longitude = position.coords.longitude;
           setLatitude(latitude);
           setLongitude(longitude);
+          console.log("long", longitude);
+          console.log("lat", latitude);
 
           if ($("#us2").locationpicker) {
             $("#us2").locationpicker("location", {
@@ -123,6 +126,7 @@ const NearbyPlace = () => {
   useEffect(() => handleAcceptLocation, []);
   return (
     <div>
+      <UserNav />
       <div id="us2" className="mapholder"></div>
       <button className="accessbtn" onClick={handleAcceptLocation}>
         Access my location

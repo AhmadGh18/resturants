@@ -6,12 +6,15 @@ import axiosClient from "../axiosClient";
 import AllRestaurants from "../MainComponents/AllRestaurants";
 import { FaMapMarker } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useStateContext } from "../context/ContextProvider";
 const Home = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
   const blurTimeoutRef = useRef(null);
+  const { setUser, User } = useStateContext();
+  const [loading, setLoading] = useState(false);
   const [allrest, setallrest] = useState([]);
   useEffect(() => {
     axiosClient.get("/restaurant/getAll").then((data) => {
@@ -45,6 +48,17 @@ const Home = () => {
     setSearchResults(results);
   };
 
+  useEffect(() => {
+    axiosClient
+      .get("/user")
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   const handleFocus = () => {
     setIsFocused(true);
   };
@@ -60,6 +74,60 @@ const Home = () => {
     // Clear the onBlur timeout to prevent it from firing after a click
     clearTimeout(blurTimeoutRef.current);
   };
+
+  useEffect(() => {
+    const fetchUserLocation = () => {
+      setLoading(true);
+      navigator.geolocation.getCurrentPosition(
+        success,
+        error,
+        { timeout: 5000 } // Adjust timeout as needed
+      );
+    };
+
+    const success = (position) => {
+      const { latitude, longitude } = position.coords;
+      const geoApiUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`;
+
+      fetch(geoApiUrl)
+        .then((res) => res.json())
+        .then((data) => {
+          updateUserLocation(latitude, longitude, data.city, User.id);
+        })
+        .catch((error) => {
+          console.error("Error fetching user location:", error);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    };
+
+    const error = (err) => {
+      console.error("Error retrieving user location:", err.message);
+      setLoading(false);
+    };
+
+    const updateUserLocation = (latitude, longitude, city, id) => {
+      axiosClient
+        .post("/user/updatelocation", {
+          latitude,
+          longitude,
+          city,
+          id,
+        })
+        .then((response) => {
+          console.log("User location updated successfully:", response.data);
+        })
+        .catch((error) => {
+          console.error("Error updating user location:", error);
+        });
+    };
+
+    if (User && (User.city === "not set" || User.city === null)) {
+      console.log("Fetching user location...");
+      fetchUserLocation();
+    }
+  }, [User]);
 
   return (
     <div>

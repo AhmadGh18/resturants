@@ -3,7 +3,14 @@ import axiosClient from "./axiosClient";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import UserNav from "./components/UserNav";
 import "./homePage.css";
-import { FaBookmark, FaHeart, FaStar, FaStarHalf } from "react-icons/fa";
+import {
+  FaBookmark,
+  FaHeart,
+  FaPhone,
+  FaStar,
+  FaStarHalf,
+  FaUtensils,
+} from "react-icons/fa";
 
 import { useStateContext } from "./context/ContextProvider";
 import { ToastContainer, toast } from "react-toastify";
@@ -45,7 +52,17 @@ const SingleRestaurant = () => {
         console.error(error);
       });
   }, []);
-
+  useEffect(() => {
+    axiosClient
+      .get("/user")
+      .then((response) => {
+        console.log(response.data);
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
   useEffect(() => {
     if (User.id) {
       axiosClient
@@ -93,9 +110,12 @@ const SingleRestaurant = () => {
         user_id: User.id,
       })
       .then((data) => {
-        console.log(data);
+        setisSaved(true);
       })
-      .catch((err) => setisSaved(false));
+      .catch((err) => {
+        console.error("Error saving restaurant:", err);
+        setisSaved(false); // Set isSaved back to false if API call fails
+      });
   }
   useEffect(() => {
     if (User.id && !loading) {
@@ -120,9 +140,12 @@ const SingleRestaurant = () => {
 
     axiosClient
       .post(`/unsaveitem/${User.id}/${restaurantId}`)
-      .then((data) => {})
+      .then((data) => {
+        setisSaved(false);
+      })
       .catch((err) => {
-        setisSaved(true);
+        console.error("Error unsaving restaurant:", err);
+        setisSaved(true); // Set isSaved back to true if API call fails
       });
   }
 
@@ -191,18 +214,127 @@ const SingleRestaurant = () => {
     <>
       <div>
         <UserNav />
+
         {restaurant && (
-          <RestInfo
-            name={restaurant.name}
-            city={restaurant.city}
-            type={restaurant.type}
-            phoneNumber={restaurant.phoneNumber}
-            bio={restaurant.bio}
-            profile_picture={restaurant.profile_picture}
-            rating_count={ratingCount}
-            average_rating={rating}
-          />
+          <main className="profile-page">
+            <section className="relative block h-500-px">
+              <div className="absolute top-0 w-full h-full bg-center  bgto">
+                <span
+                  id="blackOverlay"
+                  className="w-full h-full absolute opacity-50 bg-black"
+                ></span>
+              </div>
+              <div className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px">
+                <svg
+                  className="absolute bottom-0 overflow-hidden"
+                  xmlns="http://www.w3.org/2000/svg"
+                  preserveAspectRatio="none"
+                  version="1.1"
+                  viewBox="0 0 2560 100"
+                  x="0"
+                  y="0"
+                >
+                  <polygon
+                    className="text-blueGray-200 fill-current"
+                    points="2560 0 2560 100 0 100"
+                  ></polygon>
+                </svg>
+              </div>
+            </section>
+            <section className="relative py-16 bg-blueGray-200">
+              <div className="container mx-auto px-4">
+                <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
+                  <div className="px-6">
+                    <div className="flex flex-wrap justify-center">
+                      <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
+                        <div className="relative">
+                          <img
+                            alt="..."
+                            src={`http://localhost:8000/storage/${restaurant.profile_picture}`}
+                            className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
+                          />
+                        </div>
+                      </div>
+                      <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
+                        <div className="py-6 px-3 mt-32 sm:mt-0"></div>
+                      </div>
+                      <div className="w-full lg:w-4/12 px-4 lg:order-1">
+                        <div className="flex justify-center py-4 lg:pt-4 pt-8"></div>
+                      </div>
+                    </div>
+                    <div className="text-center mt-12">
+                      <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
+                        {restaurant.name}
+                      </h3>
+                      <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+                        <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
+                        {restaurant.city}
+                      </div>
+
+                      <div className="flex justify-center">
+                        {[...Array(5)].map((_, index) => (
+                          <FaStar
+                            key={index}
+                            color={
+                              index < restaurant.average_rating
+                                ? "gold"
+                                : "gray"
+                            }
+                            className="w-4 h-4 mr-1"
+                          />
+                        ))}
+                      </div>
+                      <div className="flex justify-center">
+                        <span
+                          style={{ fontSize: "12px" }}
+                          className="text-gray-600"
+                        >
+                          {restaurant.rating_count} reviews
+                        </span>
+                      </div>
+                      <div className="mb-2 text-blueGray-600 mt-10">
+                        <FaUtensils className="fas fa-briefcase mr-2 text-lg text-blueGray-400" />
+                        {restaurant.type}
+                      </div>
+                      <div className="mb-2 text-blueGray-600">
+                        {/* <i className="fas fa-university "></i> */}
+                        <FaPhone className=" fas mr-2 text-lg text-blueGray-400" />
+                        {restaurant.phoneNumber}
+                      </div>
+                    </div>
+                    <div className="mb-2 text-blueGray-600">
+                      {/* <i className="fas fa-university "></i> */}
+                      <center>
+                        <FaBookmark
+                          className="fas mr-2 text-lg text-blueGray-400"
+                          style={{
+                            fontSize: "23px",
+                            color: isSaved ? "red" : "",
+                          }}
+                          onClick={
+                            isSaved
+                              ? handleunsaveresttaurant
+                              : handleSaverestaurant
+                          }
+                        />
+                      </center>
+                    </div>
+                    <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
+                      <div className="flex flex-wrap justify-center">
+                        <div className="w-full lg:w-9/12 px-4">
+                          <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
+                            {restaurant.bio ? restaurant.bio : "No bio yet"}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </main>
         )}
+
         <div className="iframhold">
           <div className="resturantfrme">
             {restaurant && (
