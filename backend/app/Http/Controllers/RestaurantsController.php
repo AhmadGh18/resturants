@@ -18,7 +18,7 @@ class RestaurantsController extends Controller
     $restaurant = Restaurant::where('user_id', $userId)->first();
 
     if ($restaurant) {
-        $feedbacks = Feedback::where('user_id', $userId)->get();
+        $feedbacks = Feedback::where('restaurant_id', $restaurant->id)->get();
 
         $ratingCount = $feedbacks->count();
         $totalRating = $feedbacks->sum('stars');
@@ -71,49 +71,97 @@ class RestaurantsController extends Controller
             "restaurant" => $restaurant
         ]);
     }
+    // public function getNearbyRestaurants(Request $request)
+    // {
+    //     $latitude = $request->input('latitude');
+    //     $longitude = $request->input('longitude');
+    //     $radius = 5;
+
+    //     $nearbyRestaurants = DB::table('restaurants')
+    //         ->select('*')
+    //         ->selectRaw('( 6371 * acos( cos( radians(?) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin( radians( latitude ) ) ) ) AS distance', [$latitude, $longitude, $latitude])
+    //         ->having('distance', '<', $radius)
+    //         ->get();
+    //         $restaurants = $nearbyRestaurants->map(function ($restaurant) {
+    //             $feedbacks = Feedback::where('restaurant_id', $restaurant->id)->get();
+
+    //             $ratingCount = $feedbacks->count();
+    //             $totalRating = $feedbacks->sum('stars');
+    //             $averageRating = $ratingCount > 0 ? $totalRating / $ratingCount : 0;
+
+    //             $restaurant->rating = $averageRating; // Adding average rating to each restaurant
+    //             return $restaurant;
+    //         });
+
+
+
+
+    //     return response()->json($nearbyRestaurants);
+
+
     public function getNearbyRestaurants(Request $request)
-    {
-        $latitude = $request->input('latitude');
-        $longitude = $request->input('longitude');
-        $radius = 5;
+{
+    $latitude = $request->input('latitude');
+    $longitude = $request->input('longitude');
+    $radius = 5;
 
-        $nearbyRestaurants = DB::table('restaurants')
-            ->select('*')
-            ->selectRaw('( 6371 * acos( cos( radians(?) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin( radians( latitude ) ) ) ) AS distance', [$latitude, $longitude, $latitude])
-            ->having('distance', '<', $radius)
-            ->get();
+    $nearbyRestaurants = DB::table('restaurants')
+        ->select('*')
+        ->selectRaw('( 6371 * acos( cos( radians(?) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin( radians( latitude ) ) ) ) AS distance', [$latitude, $longitude, $latitude])
+        ->having('distance', '<', $radius)
+        ->get();
 
-        return response()->json($nearbyRestaurants);
-    }
+    $restaurants = $nearbyRestaurants->map(function ($restaurant) {
+        $feedbacks = Feedback::where('restaurant_id', $restaurant->id)->get();
+
+        $ratingCount = $feedbacks->count();
+        $totalRating = $feedbacks->sum('stars');
+        $averageRating = $ratingCount > 0 ? $totalRating / $ratingCount : 0;
+
+        $restaurant->rating = $averageRating; // Adding average rating to each restaurant
+        $restaurant->rating_count = $ratingCount; // Adding rating count to each restaurant
+        return $restaurant;
+    });
+
+    return response()->json($restaurants);
+}
+
+    // }
+    // public function getNearbyRestaurants(Request $request)
+    // {
+    //     $latitude = $request->input('latitude');
+    //     $longitude = $request->input('longitude');
+    //     $radius = 5;
+
+    //     $nearbyRestaurants = DB::table('restaurants')
+    //         ->select('restaurants.*')
+    //         ->selectRaw('( 6371 * acos( cos( radians(?) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin( radians( latitude ) ) ) ) AS distance', [$latitude, $longitude, $latitude])
+    //         ->selectRaw('IFNULL(AVG(feedbacks.stars), 0) AS average_rating') // Calculate average rating
+    //         ->leftJoin('feedbacks', 'restaurants.id', '=', 'feedbacks.restaurant_id') // Join feedbacks table
+    //         ->groupBy('restaurants.id')
+    //         ->having('distance', '<', $radius)
+    //         ->get();
+
+    //     return response()->json($nearbyRestaurants);
+    // }
 
 
-    public function update(Request $request)
+    public function update(Request $request, Restaurant $resIt)
     {
         $validatedData = $request->validate([
-
-            'longitude' => 'nullable|numeric',
-            'latitude' => 'nullable|numeric',
             'city' => 'nullable|string',
             'phoneNumber' => 'nullable|string',
             'name' => 'nullable|string',
             'type' => 'nullable|string',
             'bio' => 'nullable|string',
-            'profile_picture' => 'file|nullable',
-            'user_id' => 'required|integer',
+            "deleviery_range" => 'nullable|numeric',
         ]);
-        $restaurant = Restaurant::findOrFail($validatedData['user_id']);
-
-
-        if ($restaurant->user_id != $validatedData['user_id']) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
-
-        // Update the restaurant item with the validated data
-        $restaurant->update($validatedData);
+        $resIt->update($validatedData);
 
         // Return a response indicating success
         return response()->json(['message' => 'Restaurant item updated successfully']);
     }
+
 
 
 
@@ -170,14 +218,10 @@ public function getRestaurantWithItems($id)
 
     $feedbacks = Feedback::where('restaurant_id', $id)->get();
 
-    // Filter out feedbacks with a rating of 0
-    $filteredFeedbacks = $feedbacks->filter(function ($feedback) {
-        return $feedback->stars > 0;
-    });
-
-    $ratingCount = $filteredFeedbacks->count();
-    $totalRating = $filteredFeedbacks->sum('stars');
+    $ratingCount = $feedbacks->count();
+    $totalRating = $feedbacks->sum('stars');
     $averageRating = $ratingCount > 0 ? $totalRating / $ratingCount : 0;
+
 
     return response()->json([
         'restaurant' => $restaurant,
@@ -186,6 +230,7 @@ public function getRestaurantWithItems($id)
         'ratingCount' => $ratingCount,
     ]);
 }
+
 public function getRestaurantsByIds(Request $request)
 {
     try {

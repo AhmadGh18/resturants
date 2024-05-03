@@ -253,7 +253,7 @@ const AllRestaurants = () => {
         <select
           onChange={handleTypeChange}
           className="border border-black rounded-l-lg py-2 px-4"
-          style={{ width: "150px" }}
+          style={{ width: "150px", height: "50px" }}
         >
           <option value="All">All</option>
           <option value="Regular Restaurant">Regular</option>
@@ -267,7 +267,7 @@ const AllRestaurants = () => {
         <input
           type="text"
           className="border border-black rounded-r-lg py-2 px-4"
-          style={{ width: "400px", height: "40px" }}
+          style={{ width: "400px", height: "50px" }}
           onChange={(e) => handleSearchChange(e.target.value)}
           placeholder=" Search for restaurant"
         />

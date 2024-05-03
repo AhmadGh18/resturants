@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 const ManageItemComponents = (props) => {
   return (
     <div>
+      <div></div>
       <div className="flex flex-wrap justify-between gap-3 mt-9 ml-5">
         <div className="card card-compact w-96 bg-base-100 shadow-xl rounded-lg">
           <figure>
@@ -23,7 +24,7 @@ const ManageItemComponents = (props) => {
             <p>{props.description}</p>
             <div className="card-actions justify-end">
               <Link
-                to={`/main/restaurantPage/dashboard/singleItemToedit/${props.id}`}
+                to={`/main/restaurantPage/itemsedit/${props.id}`}
                 className="btn btn-primary absolute right-5"
               >
                 Edit

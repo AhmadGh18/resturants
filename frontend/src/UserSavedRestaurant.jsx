@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axiosClient from "./axiosClient";
 import { useStateContext } from "./context/ContextProvider";
 import { FaHeart } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const UserSavedRestaurant = () => {
   const { User, setUser } = useStateContext();
@@ -25,11 +26,10 @@ const UserSavedRestaurant = () => {
         .get("/userSavedRestaurants", { params: { id: User.id } })
         .then((response) => {
           setSavedRestaurants(response.data.savedRestaurants);
-          setLoading(false); // Set loading to false after data is fetched
+          setLoading(false);
         })
         .catch((error) => {
           console.error("Error fetching saved restaurants:", error);
-          setLoading(false); // Set loading to false on error
         });
     }
   }, [User]); // Add User to dependency array
@@ -58,20 +58,24 @@ const UserSavedRestaurant = () => {
             {savedRestaurants.map((savedRestaurant) => (
               <div
                 key={savedRestaurant.id}
-                className="border rounded-lg overflow-hidden"
+                className="border rounded-lg overflow-hidden bg-white"
               >
                 <img
                   src={`http://localhost:8000/storage/${savedRestaurant.restaurant.profile_picture}`}
                   alt={savedRestaurant.restaurant.name}
                   className="w-full h-40 object-cover"
                 />
-                <div className="p-4">
-                  <p className="text-lg font-semibold">
-                    {savedRestaurant.restaurant.name}
-                  </p>
+                <div className="p-3">
+                  <Link
+                    to={`/singlerestaurant/${savedRestaurant.restaurant.id}`}
+                  >
+                    <p className="text-lg font-semibold">
+                      {savedRestaurant.restaurant.name}
+                    </p>
+                  </Link>
                 </div>
                 <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-3 mb-4"
                   onClick={() =>
                     handleunsaveresttaurant(savedRestaurant.restaurant.id)
                   }

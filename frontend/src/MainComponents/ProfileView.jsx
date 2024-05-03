@@ -4,11 +4,12 @@ import { useStateContext } from "../context/ContextProvider";
 import axiosClient from "../axiosClient";
 import { CircularProgress } from "@mui/material";
 
-export default function ProfileView() {
+export default function ProfileView(props) {
   const { restaurant } = useStateContext();
   const [months, setMonths] = useState([]);
   const [views, setViews] = useState([]);
   const [loading, setLoading] = useState(true); // Corrected spelling
+
   useEffect(() => {
     if (restaurant.restaurant) {
       setLoading(true);
@@ -31,7 +32,7 @@ export default function ProfileView() {
   }, [restaurant]);
 
   return (
-    <div style={{ width: 500, height: 300, position: "relative" }}>
+    <div>
       {loading && (
         <div
           style={{
@@ -39,8 +40,6 @@ export default function ProfileView() {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            height: "300px",
-            width: "500px",
           }}
         >
           <CircularProgress color="secondary" />
@@ -48,17 +47,20 @@ export default function ProfileView() {
       )}
       {!loading && (
         <LineChart
-          width={500}
-          height={300}
           series={[
             {
               data: views,
               label: "Profile Views",
               area: true,
-              showMark: false,
+              showPoints: true, // Changed from showMark to showPoints
             },
           ]}
-          xAxis={[{ scaleType: "point", data: months }]}
+          xAxis={[
+            {
+              type: "category",
+              data: months,
+            },
+          ]}
           sx={{
             [`& .${lineElementClasses.root}`]: {
               display: "none",

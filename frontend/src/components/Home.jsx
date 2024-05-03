@@ -7,6 +7,7 @@ import AllRestaurants from "../MainComponents/AllRestaurants";
 import { FaMapMarker } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../context/ContextProvider";
+import Footer from "../Footer";
 const Home = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -205,6 +206,7 @@ const Home = () => {
         </div>
       </div> */}
       <AllRestaurants />
+      <Footer />
     </div>
   );
 };

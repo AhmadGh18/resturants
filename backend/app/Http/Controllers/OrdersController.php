@@ -232,5 +232,17 @@ class OrdersController extends Controller
 
         return response()->json($orders);
     }
+    public function revenuePerMonth($restaurant)
+    {
+        $revenuePerMonth = Order::where('orders.restaurant_id', $restaurant)
+            ->join('ordered_items', 'orders.id', '=', 'ordered_items.order_id')
+            ->join('items', 'ordered_items.item_id', '=', 'items.id')
+            ->selectRaw('DATE_FORMAT(orders.created_at, "%Y-%m") as month, SUM(ordered_items.quantity * items.price) as total_revenue')
+            ->groupBy(DB::raw('YEAR(orders.created_at)'), DB::raw('MONTH(orders.created_at)'), 'orders.created_at')
+            ->orderByRaw('YEAR(orders.created_at), MONTH(orders.created_at)')
+            ->get();
+
+        return response()->json($revenuePerMonth);
+    }
 
 }

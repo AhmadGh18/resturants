@@ -3,6 +3,7 @@ import axiosClient from "./axiosClient";
 import { useStepperContext } from "@mui/material";
 import { useStateContext } from "./context/ContextProvider";
 import { FaHeart } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const UserSavedItems = () => {
   const { User } = useStateContext();
@@ -45,7 +46,7 @@ const UserSavedItems = () => {
             return (
               <div
                 key={el.id}
-                className="block max-w-[18rem] rounded-lg bg-white text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white"
+                className="block max-w-[18rem] rounded-lg bg-white text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white m-2"
               >
                 <div className="relative overflow-hidden bg-cover bg-no-repeat">
                   <img
@@ -55,7 +56,9 @@ const UserSavedItems = () => {
                   />
                 </div>
                 <div className="p-6">
-                  <p className="text-base text-black">{el.item.title}</p>
+                  <Link to={`/SingleProductDetails/${el.item.id}`}>
+                    <p className="text-base text-black">{el.item.title}</p>
+                  </Link>
                   <div className="ml-3 p-2">
                     <FaHeart
                       // className="text-white"

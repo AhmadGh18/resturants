@@ -1031,7 +1031,7 @@
     /* Adjust the distance from the bottom as needed */
     right: 20px;
     /* Adjust the distance from the right as needed */
-    background-color: #e78931;
+
     border-radius: 50%;
     /* Use 50% for a perfect circle */
     display: flex;
@@ -1421,4 +1421,12 @@
         margin: 0;
     }
 
+}
+
+.nohover:hover {
+    color: black;
+}
+
+.holda {
+    background-color: #34050f !important;
 }

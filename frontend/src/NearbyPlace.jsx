@@ -4,6 +4,7 @@ import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import UserNav from "./components/UserNav.jsx";
+import ItemCard from "./MainComponents/ItemCard.jsx";
 
 const NearbyPlace = () => {
   const [latitude, setLatitude] = useState(33.883346253230904);
@@ -35,7 +36,7 @@ const NearbyPlace = () => {
       const response = await axiosClient.get(
         `/restaurant/getnearbyrestaurants?latitude=${latitude}&longitude=${longitude}&&radius=${radius}`
       );
-
+      console.log(response);
       const sortedRestaurants = response.data.sort(
         (a, b) => a.distance - b.distance
       );
@@ -128,7 +129,10 @@ const NearbyPlace = () => {
     <div>
       <UserNav />
       <div id="us2" className="mapholder"></div>
-      <button className="accessbtn" onClick={handleAcceptLocation}>
+      <button
+        className="p-2 bg-blue-600 m-3 text-white rounded-[10px]"
+        onClick={handleAcceptLocation}
+      >
         Access my location
       </button>
 
@@ -143,34 +147,16 @@ const NearbyPlace = () => {
               {nearbyRestaurants
                 .slice(pageNumber * perPage, (pageNumber + 1) * perPage)
                 .map((el) => (
-                  <div key={el.id} className="singleRestaurants">
-                    <Link
-                      to={`/singleRestaurant/${el.id}`}
-                      className="resttter"
-                    >
-                      <img
-                        src={`http://localhost:8000/storage/${el.profile_picture}`}
-                      />
-                      <div className="inforest">
-                        <p>Restaurant Name : {el.name}</p>
-                        <p>Located in : {el.city}</p>
-                        <p>Type in : {el.type}</p>
-                        <p>{el.distance.toString().substring(0, 5)} km away</p>
-                      </div>
-                      {/* <div className="flex items-center mb-2">
-                        {[...Array(5)].map((_, index) => (
-                          <FaStar
-                            key={index}
-                            color={
-                              index < el.average_rating ? "yellow" : "gray"
-                            }
-                            className="w-4 h-4 mr-1"
-                          />
-                        ))}
-                        <span>({el.rating_count} reviews)</span>
-                      </div> */}
-                    </Link>
-                  </div>
+                  <ItemCard
+                    key={el.id}
+                    name={el.name}
+                    type={el.type}
+                    img={el.profile_picture}
+                    average_rating={el.rating}
+                    rating_count={el.rating_count}
+                    id={el.id}
+                    distance={el.distance}
+                  />
                 ))}
             </div>
             <div style={{ textAlign: "center" }}>

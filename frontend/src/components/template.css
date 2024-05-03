@@ -54,6 +54,8 @@
 
 }
 
+
+
 .searchfa {
     position: absolute;
     color: rgb(113, 113, 112);
@@ -247,4 +249,8 @@
     /* Add some bottom margin for spacing */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     /* Add a subtle text shadow */
+}
+
+.searchhold input:focus {
+    border: 1px white solid !important;
 }

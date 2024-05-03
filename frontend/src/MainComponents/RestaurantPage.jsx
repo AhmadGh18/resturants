@@ -3,46 +3,29 @@ import { useStateContext } from "../context/ContextProvider";
 import { Navigate, Outlet } from "react-router-dom";
 import axiosClient from "../axiosClient";
 import SideBar from "../SideBar";
+import NewSide from "../RestaurantDashboard/NewSide";
 
 const RestaurantPage = () => {
   const { User, token, setRestaurant, setUser } = useStateContext();
+  if (User) {
+    console.log(User);
+  }
   useEffect(() => {
-    axiosClient
-      .get("/user")
-      .then((response) => {
-        console.log(response.data);
-        setUser(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-  useEffect(() => {
-    const fetchRestaurantInfo = async () => {
-      if (User) {
-        try {
-          const response = await axiosClient.get(
-            `/restaurant/getByUserId/${User.id}`
-          );
-          setRestaurant(response.data);
-        } catch (error) {
-          console.error("Error fetching restaurant information:", error);
-        }
-      }
-    };
+    axiosClient.get(`/restaurant/getByUserId/${User.id}`).then((res) => {
+      console.log(res);
+      setRestaurant(res.data);
+    });
+  }, [User]);
 
-    fetchRestaurantInfo();
-  }, [User.id]);
-  if (User.has_restaurant == 0) {
-    return <Navigate to="/home" />;
-  }
-  if (!token) {
-    return <Navigate to="/home" />;
-  }
   return (
-    <div className="flex">
-      <SideBar />
-      <Outlet />
+    <div>
+      <div className="absolute">
+        <NewSide />
+      </div>
+
+      <div className="bg-white">
+        <Outlet />
+      </div>
     </div>
   );
 };

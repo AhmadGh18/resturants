@@ -32,15 +32,14 @@ import Myhome from "./Myhome";
 import UserSavedRestaurant from "./UserSavedRestaurant";
 import UserSavedItems from "./UserSavedItems";
 import TopCitiesChart from "./Chart1";
-import Alone from "./Alone";
-import SimpleAreaChart from "./MainComponents/ProfileView";
-import WholeDashboard from "./RestaurantDashboard/WholeDashboard";
-import BestPlace from "./BestPlace";
-import ManageItem from "./ManageItem";
-import ItemOnwer from "./ItemOnwer";
-import RestaurantItemsCard from "./components/RestaurantItemsCard";
+
 import Orders from "./Orders";
 import SingleOrder from "./SingleOrder";
+import TopInfo from "./RestaurantDashboard/TopInfo";
+import NewDashboard from "./RestaurantDashboard/NewDashboard";
+import Starsandreviews from "./components/Starsandreviews";
+import ManageItem from "./ManageItem";
+import ItemOnwer from "./ItemOnwer";
 const router = createBrowserRouter([
   {
     path: "/home",
@@ -107,42 +106,80 @@ const router = createBrowserRouter([
         ],
       },
       {
+        path: "/main/order",
+        element: <Orders />,
+      },
+      {
         path: "/main/restaurantPage",
         element: <RestaurantPage />,
         children: [
           {
-            path: "/main/restaurantPage/dashboard",
-            element: <WholeDashboard />,
+            path: "/main/restaurantPage",
+            element: <Navigate to="/main/restaurantPage/newDasboard" />,
           },
           {
-            path: "/main/restaurantPage/dashboard/PersonalInfo",
-            element: <PersonalInfo />,
+            path: "/main/restaurantPage/newDasboard",
+            element: <NewDashboard />,
           },
           {
-            path: "/main/restaurantPage/dashboard/BestPlace",
-            element: <BestPlace />,
-          },
-          {
-            path: "/main/restaurantPage/dashboard/additem",
-            element: <AddItem />,
-          },
-          {
-            path: "/main/restaurantPage/dashboard/manageItem",
-            element: <ManageItem />,
-          },
-          {
-            path: "/main/restaurantPage/dashboard/singleItemToedit/:id",
-            element: <ItemOnwer />,
-          },
-          {
-            path: "/main/restaurantPage/dashboard/Orders",
+            path: "/main/restaurantPage/Orders",
             element: <Orders />,
           },
           {
-            path: "/main/restaurantPage/dashboard/Orders/singleorder/:id",
+            path: "/main/restaurantPage/singleOrder/:id",
             element: <SingleOrder />,
           },
+          {
+            path: "/main/restaurantPage/personalinfo",
+            element: <PersonalInfo />,
+          },
+          {
+            path: "/main/restaurantPage/Starsandreviews",
+            element: <Starsandreviews />,
+          },
+          {
+            path: "/main/restaurantPage/manageItems",
+            element: <ManageItem />,
+          },
+          {
+            path: "/main/restaurantPage/itemsedit/:id",
+            element: <ItemOnwer />,
+          },
         ],
+        // children: [
+        //   {
+        //     path: "/main/restaurantPage/dashboard",
+        //     element: <WholeDashboard />,
+        //   },
+        //   {
+        //     path: "/main/restaurantPage/dashboard/PersonalInfo",
+        //     element: <PersonalInfo />,
+        //   },
+        //   {
+        //     path: "/main/restaurantPage/dashboard/BestPlace",
+        //     element: <BestPlace />,
+        //   },
+        //   {
+        //     path: "/main/restaurantPage/dashboard/additem",
+        //     element: <AddItem />,
+        //   },
+        //   {
+        //     path: "/main/restaurantPage/dashboard/manageItem",
+        //     element: <ManageItem />,
+        //   },
+        //   {
+        //     path: "/main/restaurantPage/dashboard/singleItemToedit/:id",
+        //     element: <ItemOnwer />,
+        //   },
+        //   {
+        //     path: "/main/restaurantPage/dashboard/Orders",
+        //     element: <Orders />,
+        //   },
+        //   {
+        //     path: "/main/restaurantPage/dashboard/Orders/singleorder/:id",
+        //     element: <SingleOrder />,
+        //   },
+        // ],
       },
     ],
   },
@@ -162,10 +199,7 @@ const router = createBrowserRouter([
     path: "/AllItems",
     element: <AllItems />,
   },
-  {
-    path: "/singleitem/:id",
-    element: <SingleItem />,
-  },
+
   {
     path: "/singleRestaurant/:restaurantId",
     element: <SingleRestaurant />,
@@ -219,20 +253,6 @@ const router = createBrowserRouter([
   {
     path: "/TopCitiesChart",
     element: <TopCitiesChart />,
-  },
-  {
-    path: "/Alone",
-    element: <Alone />,
-    children: [
-      {
-        path: "/Alone/chart",
-        element: <SimpleAreaChart />,
-      },
-    ],
-  },
-  {
-    path: "/RestaurantItemsCard",
-    element: <RestaurantItemsCard />,
   },
 ]);
 

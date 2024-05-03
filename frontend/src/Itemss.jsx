@@ -17,10 +17,7 @@ const Itemss = (props) => {
             <div className="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25"></div>
           </a>
           <a href={`/SingleProductDetails/${props.id}`}>
-            <div
-              style={{ backgroundColor: "#F97316" }}
-              className="absolute bottom-0 left-0 px-4 py-2 text-white text-sm hover:bg-white hover:text-indigo-600 transition duration-500 ease-in-out"
-            >
+            <div className="bg-blue-400 absolute bottom-0 left-0 px-4 py-2 text-white text-sm hover:bg-white hover:text-indigo-600 transition duration-500 ease-in-out">
               details
             </div>
           </a>

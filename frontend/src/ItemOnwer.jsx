@@ -110,7 +110,7 @@ const ItemOnwer = () => {
       const response = await axiosClient.post("/item/update", formData);
 
       // Handle the response
-      nav("/main/restaurantPage/dashboard/manageItem");
+      nav("/main/restaurantPage/manageItems");
     } catch (error) {
       console.error("Error updating item:", error);
     }
@@ -119,7 +119,7 @@ const ItemOnwer = () => {
   return (
     <div>
       {item && (
-        <div className="flex items-center justify-center p-12 w-100">
+        <div className="flex items-center justify-center p-12  mr-[100px] ml-[100px]">
           <div className="mx-auto w-full  bg-white w-100">
             <form className="p-12 w-100" onSubmit={handleSubmit}>
               <div className="mb-4">
@@ -280,7 +280,7 @@ const ItemOnwer = () => {
                   onClick={(e) => {
                     e.preventDefault();
                     axiosClient.delete(`/item/${item.id}`).then(() => {
-                      nav("/main/restaurantPage/dashboard/manageItem");
+                      nav("/main/restaurantPage/manageItems");
                     });
                   }}
                 >

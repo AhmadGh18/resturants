@@ -189,7 +189,7 @@ const SingleProductDetails = (props) => {
                 <div className="btns flex">
                   <button
                     type="button"
-                    className="bg-lightgrayish text-orange-500 px-3 py-2 text-lg font-medium"
+                    className="bg-lightgrayish text-blue-500 px-3 py-2 text-lg font-medium"
                     onClick={() => setcount((old) => old - 1)}
                   >
                     -
@@ -202,7 +202,7 @@ const SingleProductDetails = (props) => {
                   </button>
                   <button
                     type="button"
-                    className="bg-lightgrayish text-orange-500 px-3 py-2 text-lg font-medium"
+                    className="bg-lightgrayish text-blue-500 px-3 py-2 text-lg font-medium"
                     onClick={() => setcount((old) => old + 1)}
                   >
                     +
@@ -210,7 +210,7 @@ const SingleProductDetails = (props) => {
                 </div>
                 <button
                   onClick={() => addtocart(item.item.id, count)} // Pass item ID and count to addtocart function
-                  className="add_cart bg-orange-500 text-white flex items-center justify-between px-6 py-1 rounded-md ml-4 cursor-pointer"
+                  className="add_cart bg-blue-500 text-white flex items-center justify-between px-6 py-1 rounded-md ml-4 cursor-pointer"
                   type="button"
                 >
                   <svg
@@ -229,20 +229,22 @@ const SingleProductDetails = (props) => {
                   </svg>
                   Add to Cart
                 </button>
-                <div className="bg-gray-300 ml-3 p-2">
+                <div className="bg-blue-300 ml-3 p-2">
                   <FaHeart
                     // className="text-white"
                     onClick={isItemSaved ? unlike : saveItem}
-                    style={{ color: isItemSaved ? "red" : "white" }}
+                    style={{
+                      color: isItemSaved ? "red" : "white",
+                    }}
                   />
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="cartelement" onClick={toglledisplay}>
+          <div className="cartelement bg-blue-700" onClick={toglledisplay}>
             <FaShoppingBasket className="inline-block mr-2" />
-            {cartsize}
+            <span className=""> {cartsize}</span>
           </div>
           <AllCartItems
             display={displaied ? "block" : "none"}
@@ -251,7 +253,7 @@ const SingleProductDetails = (props) => {
           />
         </main>
       ) : (
-        "Loading..."
+        <center>Loading...</center>
       )}
       {item && <SimilarItems category={item.item.category} />}
       {item && <ExploreRestaurants type={item.item.restaurant.type} />}

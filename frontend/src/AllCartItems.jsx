@@ -179,7 +179,7 @@ const AllCartItems = (props) => {
                                     <div className="flex">
                                       <button
                                         type="button"
-                                        className="font-medium text-orange-400 hover:text-indigo-500"
+                                        className="font-medium text-blue-400 hover:text-indigo-500"
                                       >
                                         Remove
                                       </button>
@@ -205,7 +205,7 @@ const AllCartItems = (props) => {
                   <div className="mt-6">
                     <Link
                       to={`/checkout`}
-                      className="flex items-center justify-center rounded-md border border-transparent bg-orange-400 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-orange-400"
+                      className="flex items-center justify-center rounded-md border border-transparent bg-blue-400 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blue-200"
                     >
                       Checkout
                     </Link>

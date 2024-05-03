@@ -6,6 +6,7 @@ import "./homePage.css";
 import {
   FaBookmark,
   FaHeart,
+  FaMapMarked,
   FaPhone,
   FaStar,
   FaStarHalf,
@@ -24,6 +25,8 @@ const SingleRestaurant = () => {
   const [items, setItems] = useState([]);
   const [savedItems, setSavedItems] = useState({});
   const [stars, setStars] = useState(0);
+  const [visibleReviews, setVisibleReviews] = useState(5);
+
   const [loading, setLoading] = useState(false);
   const [feedbackInfo, setFeedbackInfo] = useState({
     feedback: "",
@@ -52,17 +55,7 @@ const SingleRestaurant = () => {
         console.error(error);
       });
   }, []);
-  useEffect(() => {
-    axiosClient
-      .get("/user")
-      .then((response) => {
-        console.log(response.data);
-        setUser(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+
   useEffect(() => {
     if (User.id) {
       axiosClient
@@ -80,6 +73,7 @@ const SingleRestaurant = () => {
     setLoading(true);
     axiosClient.get(`/restaurantsItems/${restaurantId}`).then((response) => {
       setLoading(false);
+      console.log(response);
       setRestaurant(response.data.restaurant);
       setItems(response.data.restaurant.items);
       setRating(response.data.averageRating);
@@ -209,6 +203,20 @@ const SingleRestaurant = () => {
       setRestaurantFeedbacks(response.data);
     });
   }, []);
+  // useEffect(() => {
+  //   const fetchRestaurantInfo = async () => {
+  //     try {
+  //       const response = await axiosClient.get(
+  //         `/restaurant/getByUserId/${User.id}`
+  //       );
+  //       setRestaurant(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching restaurant information:", error);
+  //     }
+  //   };
+
+  //   fetchRestaurantInfo();
+  // }, [User.id]);
 
   return (
     <>
@@ -246,15 +254,17 @@ const SingleRestaurant = () => {
                 <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
                   <div className="px-6">
                     <div className="flex flex-wrap justify-center">
-                      <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
-                        <div className="relative">
+                      <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center -mt-10 -ml-7">
+                        <div className="relative bg-red-900">
                           <img
                             alt="..."
                             src={`http://localhost:8000/storage/${restaurant.profile_picture}`}
-                            className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
+                            className="shadow-xl rounded-full h-40 w-40 align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
+                            style={{ objectFit: "cover" }} // Ensure the image covers the entire container
                           />
                         </div>
                       </div>
+
                       <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
                         <div className="py-6 px-3 mt-32 sm:mt-0"></div>
                       </div>
@@ -267,7 +277,7 @@ const SingleRestaurant = () => {
                         {restaurant.name}
                       </h3>
                       <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-                        <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
+                        <FaMapMarked className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400" />
                         {restaurant.city}
                       </div>
 
@@ -276,7 +286,10 @@ const SingleRestaurant = () => {
                           <FaStar
                             key={index}
                             color={
-                              index < restaurant.average_rating
+                              index < Math.floor(rating)
+                                ? "gold"
+                                : index < Math.ceil(rating) &&
+                                  rating - index >= 0.5
                                 ? "gold"
                                 : "gray"
                             }
@@ -284,15 +297,16 @@ const SingleRestaurant = () => {
                           />
                         ))}
                       </div>
+
                       <div className="flex justify-center">
                         <span
                           style={{ fontSize: "12px" }}
                           className="text-gray-600"
                         >
-                          {restaurant.rating_count} reviews
+                          {ratingCount} reviews
                         </span>
                       </div>
-                      <div className="mb-2 text-blueGray-600 mt-10">
+                      <div className="mb-2 text-blueGray-600 mt-2">
                         <FaUtensils className="fas fa-briefcase mr-2 text-lg text-blueGray-400" />
                         {restaurant.type}
                       </div>
@@ -353,7 +367,9 @@ const SingleRestaurant = () => {
           <div className="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
             {loading ? (
               // Display loading indicator while data is being fetched
-              <div>Loading...</div>
+              <center>
+                <div>Loading...</div>
+              </center>
             ) : items.length === 0 ? (
               // Display "No item" message centered on the screen if there are no items
               <div className="flex items-center justify-center h-40">
@@ -447,111 +463,116 @@ const SingleRestaurant = () => {
 
         <section className="bg-white dark:bg-gray-900 py-8 lg:py-16 antialiased">
           <div className="max-w-2xl mx-auto px-4">
-            {RestaurantFeedbacks && RestaurantFeedbacks.length == 0 && (
+            {RestaurantFeedbacks && RestaurantFeedbacks.length === 0 && (
               <center>
-                {" "}
                 <p>No feedbacks yet</p>
               </center>
             )}
             {RestaurantFeedbacks &&
-              // Reorder the feedbacks array to display comments by the current user on top
-              [...RestaurantFeedbacks]
-                .sort((a, b) => (a.user_id === User.id ? -1 : 1))
-                .map((el) => {
-                  return (
-                    <article
-                      key={el.id}
-                      className="p-6 text-base bg-white rounded-lg dark:bg-gray-900"
+              RestaurantFeedbacks.slice(0, visibleReviews).map((el) => (
+                <article
+                  key={el.id}
+                  className="p-6 text-base bg-white rounded-lg dark:bg-gray-900"
+                >
+                  <footer className="flex justify-between items-center mb-2">
+                    <div className="flex items-center">
+                      <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
+                        <img
+                          className="mr-2 w-6 h-6 rounded-full"
+                          src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
+                          alt="Michael Gough"
+                        />
+                        <p style={{ color: "gray" }}> {el.full_name}</p>
+                      </p>
+                    </div>
+
+                    <div
+                      id={`dropdownComment${el.id}`}
+                      className="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
                     >
-                      <footer className="flex justify-between items-center mb-2">
-                        <div className="flex items-center">
-                          <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
-                            <img
-                              className="mr-2 w-6 h-6 rounded-full"
-                              src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
-                              alt="Michael Gough"
-                            />
-                            <p style={{ color: "gray" }}> {el.full_name}</p>
-                          </p>
-                        </div>
-
-                        <div
-                          id="dropdownComment1"
-                          className="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                        >
-                          <ul
-                            className="py-1 text-sm text-gray-700 dark:text-gray-200"
-                            aria-labelledby="dropdownMenuIconHorizontalButton"
+                      <ul
+                        className="py-1 text-sm text-gray-700 dark:text-gray-200"
+                        aria-labelledby="dropdownMenuIconHorizontalButton"
+                      >
+                        <li>
+                          <a
+                            href="#"
+                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           >
-                            <li>
-                              <a
-                                href="#"
-                                className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                              >
-                                Edit
-                              </a>
-                            </li>
-                            <li>
-                              <a
-                                href="#"
-                                className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                              >
-                                Remove
-                              </a>
-                            </li>
-                            <li>
-                              <a
-                                href="#"
-                                className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                              >
-                                Report
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </footer>
+                            Edit
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="#"
+                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            Remove
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="#"
+                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            Report
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </footer>
 
-                      <p className="text-gray-500 dark:text-gray-400">
-                        {[...Array(el.stars)].map((_, index) => (
-                          <FaStar
-                            key={index}
-                            style={{
-                              color: "gold",
-                              cursor: "pointer",
-                              display: "inline",
-                              fontSize: "1rem",
-                              marginRight: "0.25rem",
-                            }}
-                          />
-                        ))}
-                      </p>
-                      <p className="text-gray-500 dark:text-gray-400">
-                        {el.feedback}
-                      </p>
+                  <p className="text-gray-500 dark:text-gray-400">
+                    {[...Array(el.stars)].map((_, index) => (
+                      <FaStar
+                        key={index}
+                        style={{
+                          color: "gold",
+                          cursor: "pointer",
+                          display: "inline",
+                          fontSize: "1rem",
+                          marginRight: "0.25rem",
+                        }}
+                      />
+                    ))}
+                  </p>
+                  <p className="text-gray-500 dark:text-gray-400">
+                    {el.feedback}
+                  </p>
 
-                      <div className="flex items-center mt-4 space-x-4">
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          <time dateTime={el.created} title={el.created}>
-                            {`${new Date(el.created_at).getFullYear()}-${(
-                              new Date(el.created_at).getMonth() + 1
-                            )
-                              .toString()
-                              .padStart(2, "0")}-${new Date(el.created_at)
-                              .getDate()
-                              .toString()
-                              .padStart(2, "0")}`}
-                          </time>
-                        </p>
-                      </div>
-                      {el.user_id == User.id && (
-                        <button onClick={() => deleteComment(el.id)}>
-                          x Remove
-                        </button>
-                      )}
-                      <hr />
-                    </article>
-                  );
-                })}
+                  <div className="flex items-center mt-4 space-x-4">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      <time dateTime={el.created} title={el.created}>
+                        {`${new Date(el.created_at).getFullYear()}-${(
+                          new Date(el.created_at).getMonth() + 1
+                        )
+                          .toString()
+                          .padStart(2, "0")}-${new Date(el.created_at)
+                          .getDate()
+                          .toString()
+                          .padStart(2, "0")}`}
+                      </time>
+                    </p>
+                  </div>
+                  {el.user_id === User.id && (
+                    <button onClick={() => deleteComment(el.id)}>
+                      x Remove
+                    </button>
+                  )}
+                  <hr />
+                </article>
+              ))}
+            {RestaurantFeedbacks &&
+              RestaurantFeedbacks.length > visibleReviews && (
+                <center>
+                  <button
+                    className="font-bold mt-5"
+                    onClick={() => setVisibleReviews(visibleReviews + 5)}
+                  >
+                    View more
+                  </button>
+                </center>
+              )}
           </div>
         </section>
       </div>

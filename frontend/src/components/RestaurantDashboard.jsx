@@ -6,7 +6,7 @@ import { useStateContext } from "../context/ContextProvider";
 import SideBar from "../SideBar";
 
 const RestaurantDashboard = () => {
-  const { User, restaurant, setRestaurant } = useStateContext();
+  const { User, restaurant } = useStateContext();
   // useEffect(() => {
   //   const fetchRestaurantInfo = async () => {
   //     try {
@@ -23,7 +23,6 @@ const RestaurantDashboard = () => {
   // }, [User.id]);
   return (
     <div className="flex">
-      <SideBar />
       <Outlet />
     </div>
   );

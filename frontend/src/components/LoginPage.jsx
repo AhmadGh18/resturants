@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { useStateContext } from "../context/ContextProvider";
 import axiosClient from "../axiosClient";
-import "./login.css";
 import { FaEye } from "react-icons/fa";
 import axios from "axios";
 const LoginPage = () => {
@@ -32,6 +31,7 @@ const LoginPage = () => {
         .post("/user/login", formData)
         .then((data) => {
           console.log(data);
+          setUser(data.data.user);
           setToken(data.data.token);
         })
         .catch((error) => {

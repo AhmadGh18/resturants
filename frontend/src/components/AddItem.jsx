@@ -4,7 +4,7 @@ import axiosClient from "../axiosClient";
 import { useNavigate } from "react-router-dom";
 
 const AddItem = () => {
-  const { restaurant, setRestaurant, User, token } = useStateContext();
+  const { restaurant, User, token } = useStateContext();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);

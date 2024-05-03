@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useStateContext } from "./context/ContextProvider";
 import axiosClient from "./axiosClient";
 
-const Stars = () => {
-  const { restaurant, User, setUser, setRestaurant } = useStateContext();
+const Stars = (props) => {
+  const { restaurant } = useStateContext();
   const [rating, setRating] = useState([]);
 
   useEffect(() => {

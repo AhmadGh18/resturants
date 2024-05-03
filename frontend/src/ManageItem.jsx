@@ -20,20 +20,19 @@ const ManageItem = () => {
   }, [restaurant]);
 
   return (
-    <div className="relative h-screen">
+    <div className="h-screen w-auto 0 z-0">
       {loading && (
         <div className="absolute inset-0 flex justify-center items-center bg-gray-300 opacity-50">
           <p className="text-lg">Loading...</p>
         </div>
       )}
-      <div className="flex flex-wrap justify-center items-center h-full overflow-x-scroll">
+      <div className="ml-[100px] flex flex-wrap gap-2 align-center justify-center">
         {items ? (
           items.map((el) => (
             <ManageItemComponents
               key={el.id}
               title={el.title}
               image={el.thumbnail}
-              description={el.description}
               id={el.id}
             />
           ))
@@ -41,6 +40,7 @@ const ManageItem = () => {
           <p className="text-lg">No items yet</p>
         )}
       </div>
+      );
     </div>
   );
 };

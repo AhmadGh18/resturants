@@ -18,7 +18,6 @@ const Default = () => {
   }, [setUser]);
 
   // if (User) {
-  //   console.log("user exist from a");
   //   if (User.has_restaurant == 1) {
   //     return <Navigate to="/main/restaurant" />;
   //   }

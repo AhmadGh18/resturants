@@ -4,6 +4,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useStateContext } from "./context/ContextProvider";
 import { useNavigate } from "react-router-dom";
+import UserNav from "./components/UserNav";
+import Footer from "./Footer";
 
 const Checkout = () => {
   const { User, setUser } = useStateContext();
@@ -212,104 +214,117 @@ const Checkout = () => {
     toast(`Cannot order from ${rest}  since its doenot deliver this far`);
   };
   return (
-    <div
-      className="flex flex-col sm:flex-row" // Use flex-column for small screens, flex-row for larger screens
-      style={{
-        width: "100%",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <div className="w-full sm:w-1/2">
-        {" "}
-        {/* Full width on small screens, 50% width on larger screens */}
-        <div
-          id="us2"
-          className="mapholder"
-          style={{ height: "100vh", width: "100%" }}
-        ></div>
-        <button type="button" className="button" onClick={handleAcceptLocation}>
-          Get Location
-        </button>
-      </div>
+    <>
+      <UserNav />
+      <div
+        className="flex flex-col sm:flex-row" // Use flex-column for small screens, flex-row for larger screens
+        style={{
+          // width: "100%",
+          justifyContent: "space-between",
+          alignItems: "center",
+          margin: "0 100px",
+        }}
+      >
+        <div className="w-full sm:w-1/2">
+          {" "}
+          {/* Full width on small screens, 50% width on larger screens */}
+          <div
+            id="us2"
+            className="mapholder"
+            style={{ height: "100vh", width: "100%" }}
+          ></div>
+          <button
+            type="button"
+            className="button"
+            onClick={handleAcceptLocation}
+          >
+            Get Location
+          </button>
+        </div>
 
-      <div className="w-full sm:w-1/2">
-        {" "}
-        {/* Full width on small screens, 50% width on larger screens */}
-        <div className="p-12">
-          <div className="mx-auto w-full max-w-[550px] bg-white">
-            <form className="m-3" onSubmit={handlesubmit}>
-              <div className="mb-5">
-                <label className="mb-3 block text-base font-medium text-[#07074D]">
-                  Full Name
-                </label>
-                <input
-                  onChange={handleChange}
-                  required
-                  type="text"
-                  name="first_name"
-                  id="name"
-                  placeholder="first Name"
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                />
-              </div>
-              <div className="mb-5">
-                <label className="mb-3 block text-base font-medium text-[#07074D]">
-                  Last Name
-                </label>
-                <input
-                  required
-                  onChange={handleChange}
-                  type="text"
-                  name="last_name"
-                  id="name"
-                  placeholder="Last Name"
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                />
-              </div>
-              <div className="mb-5">
-                <label className="mb-3 block text-base font-medium text-[#07074D]">
-                  Phone Number
-                </label>
-                <input
-                  required
-                  onChange={handleChange}
-                  type="text"
-                  name="phone"
-                  id="phone"
-                  placeholder="Enter your phone number"
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                />
-              </div>
-              <div className="mb-5">
-                <label className="mb-3 block text-base font-medium text-[#07074D]">
-                  Any other notes
-                </label>
-                <input
-                  required
-                  onChange={handleChange}
-                  type="text"
-                  name="notes"
-                  id="notes"
-                  placeholder="Would you like to add somehthing?"
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                />
-              </div>
+        <div className="w-full sm:w-1/2">
+          {" "}
+          {/* Full width on small screens, 50% width on larger screens */}
+          <div className="p-12">
+            <div className="mx-auto w-full max-w-[550px] bg-white p-1">
+              <form className="m-3" onSubmit={handlesubmit}>
+                <div className="mb-4">
+                  <label className="mb-3 block text-base font-medium text-[#07074D]">
+                    First Name
+                  </label>
+                  <input
+                    onChange={handleChange}
+                    required
+                    type="text"
+                    name="first_name"
+                    id="name"
+                    placeholder="first Name"
+                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    autoComplete="off"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="mb-1 block text-base font-medium text-[#07074D]">
+                    Last Name
+                  </label>
+                  <input
+                    required
+                    onChange={handleChange}
+                    type="text"
+                    name="last_name"
+                    id="name"
+                    placeholder="Last Name"
+                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    autoComplete="off"
+                  />
+                </div>
+                <div className="mb-1">
+                  <label className="mb-2 block text-base font-medium text-[#07074D]">
+                    Phone Number
+                  </label>
+                  <input
+                    required
+                    onChange={handleChange}
+                    type="text"
+                    name="phone"
+                    id="phone"
+                    placeholder="Enter your phone number"
+                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    autoComplete="off"
+                  />
+                </div>
+                <div className="mb-5">
+                  <label className="mb-3 block text-base font-medium text-[#07074D]">
+                    Any other notes
+                  </label>
+                  <input
+                    required
+                    onChange={handleChange}
+                    type="text"
+                    name="notes"
+                    id="notes"
+                    placeholder="Would you like to add somehthing?"
+                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    autoComplete="off"
+                  />
+                </div>
 
-              <div>
-                <button
-                  className="hover:shadow-form w-full rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none"
-                  type="submit"
-                >
-                  Order Now
-                </button>
-              </div>
-            </form>
-            <ToastContainer />
+                <div>
+                  <button
+                    className="hover:shadow-form w-full rounded-md bg-blue-400 py-3 px-8 text-center text-base font-semibold text-white outline-none"
+                    type="submit"
+                  >
+                    Order Now
+                  </button>
+                </div>
+              </form>
+              <ToastContainer />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 

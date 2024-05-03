@@ -28,9 +28,13 @@ const ItemCard = (props) => {
       <div className="text">
         <p className="h3">{props.name}</p>
         <p className="p">{props.type}</p>
-        <p className="p mb-1">Located in {props.city}</p>
+        {props.city && <p className="p mb-1">Located in {props.city}</p>}
 
-        {props.distance && <p className="p">{props.distance}</p>}
+        {props.distance && (
+          <p className="p">
+            {props.distance.toString().substring(0, 4)} km away from you
+          </p>
+        )}
         <div>
           <p className="span">
             <div className="flex justify-between mb-2">
@@ -43,9 +47,11 @@ const ItemCard = (props) => {
                   />
                 ))}
               </div>
-              <span style={{ fontSize: "12px" }} className="text-gray-600">
-                {props.rating_count} reviews
-              </span>
+              {props.rating_count && (
+                <span style={{ fontSize: "12px" }} className="text-gray-600">
+                  {props.rating_count} reviews
+                </span>
+              )}
             </div>
           </p>
         </div>
