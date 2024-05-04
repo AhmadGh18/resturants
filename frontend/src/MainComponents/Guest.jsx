@@ -7,7 +7,7 @@ const Guest = () => {
   if (token) {
     return <Navigate to="/home" />;
   }
-  console.log("from guest", User);
+
   return (
     <div>
       <Outlet />

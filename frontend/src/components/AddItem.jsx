@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useStateContext } from "../context/ContextProvider";
 import axiosClient from "../axiosClient";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 const AddItem = () => {
   const { restaurant, User, token } = useStateContext();
@@ -61,6 +62,9 @@ const AddItem = () => {
     { id: 8, name: "Salad" },
     { id: 9, name: "Steak" },
     { id: 10, name: "Seafood" },
+    { id: 11, name: "drinks" },
+    { id: 12, name: "vegan" },
+    { id: 13, name: "rice" },
   ];
 
   const handleThumbnailSelect = (event) => {
@@ -142,12 +146,14 @@ const AddItem = () => {
     axiosClient
       .post("/items/addItem", formDataObject)
       .then((response) => {
-        nav("/main/restaurantPage/dashboard/manageItem");
+        nav("/main/restaurantPage/manageItems");
       })
       .catch((error) => {
-        console.error("Error:", error);
-        // Handle error (e.g., show error message)
+        return nav("/main/restaurantPage/manageItems");
       });
+  };
+  const notify = (err) => {
+    toast(`err Occuried ${err}  `);
   };
 
   return (
@@ -229,10 +235,10 @@ const AddItem = () => {
                 />
                 <div>
                   <label
-                    className="bg-blue-200 p-1 rounded-lg border border-gray-200 text-white-200"
+                    className="bg-blue-500 p-2 rounded-lg border border-gray-500 text-white"
                     htmlFor="filein"
                   >
-                    Choose More Images
+                    Add More
                   </label>
                   <input
                     type="file"
@@ -333,6 +339,7 @@ const AddItem = () => {
           </div>
         </div>
       </section>
+      <ToastContainer />
     </div>
   );
 };

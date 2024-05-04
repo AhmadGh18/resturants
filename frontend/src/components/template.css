@@ -59,7 +59,7 @@
 .searchfa {
     position: absolute;
     color: rgb(113, 113, 112);
-    left: 15px;
+    left: 8px;
 }
 
 @media screen and (max-width: 768px) {

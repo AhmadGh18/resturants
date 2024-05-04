@@ -48,7 +48,7 @@ const AddProfile = () => {
       .post("/restaurant/create", formData)
       .then((res) => {
         console.log(res);
-        nav("/main/restaurantPage/dashboard");
+        nav("/main/restaurantPage");
       })
       .catch((err) => console.log(err));
   };

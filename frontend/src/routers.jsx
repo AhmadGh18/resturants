@@ -145,6 +145,10 @@ const router = createBrowserRouter([
             path: "/main/restaurantPage/itemsedit/:id",
             element: <ItemOnwer />,
           },
+          {
+            path: "/main/restaurantPage/addItem",
+            element: <AddItem />,
+          },
         ],
         // children: [
         //   {

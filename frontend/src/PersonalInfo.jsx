@@ -54,7 +54,7 @@ const PersonalInfo = () => {
 
   return (
     <div
-      className="flex items-center justify-center p-12 m-auto"
+      className="flex items-center justify-center p-1 m-auto"
       style={{ width: "100%" }}
     >
       <div
@@ -66,8 +66,8 @@ const PersonalInfo = () => {
           transition: "transform 0.5s ease, opacity 0.5s ease",
         }}
       >
-        <form className="p-10" onSubmit={handleSubmit}>
-          <div className="mb-5">
+        <form className="p-3" onSubmit={handleSubmit}>
+          <div className="mb-4">
             <label
               htmlFor="full_name"
               className="mb-3 block text-base font-medium text-blue-400"
@@ -85,7 +85,7 @@ const PersonalInfo = () => {
             />
           </div>
 
-          <div className="mb-5">
+          <div className="mb-4">
             <label
               htmlFor="email"
               className="mb-3 block text-base font-medium text-blue-400"
@@ -105,7 +105,7 @@ const PersonalInfo = () => {
           {infoToSubmit ? (
             <div className="-mx-3 flex flex-wrap">
               <div className="w-full px-3 sm:w-1/2">
-                <div className="mb-5">
+                <div className="mb-4">
                   <label
                     htmlFor="area"
                     className="mb-3 block text-base font-medium text-blue-400"
@@ -124,7 +124,7 @@ const PersonalInfo = () => {
                 </div>
               </div>
               <div className="w-full px-3 sm:w-1/2">
-                <div className="mb-5">
+                <div className="mb-4">
                   <label
                     htmlFor="range"
                     className="mb-3 block text-base font-medium text-blue-400"
@@ -143,7 +143,7 @@ const PersonalInfo = () => {
                 </div>
               </div>
               <div className="w-full  w-100">
-                <div className="mb-5">
+                <div className="mb-4">
                   <label
                     htmlFor="phoneNumber"
                     className="mb-3 block text-base font-medium text-blue-400"
@@ -162,7 +162,7 @@ const PersonalInfo = () => {
                 </div>
               </div>
               <div className="w-full  w-100">
-                <div className="mb-5">
+                <div className="mb-4">
                   <label
                     htmlFor="name"
                     className="mb-3 block text-base font-medium text-blue-400"
@@ -181,7 +181,7 @@ const PersonalInfo = () => {
                 </div>
               </div>
 
-              <div className="mb-5 w-100">
+              <div className="mb-4 w-100">
                 <label
                   htmlFor="bio"
                   className="mb-3 block text-base font-medium text-blue-400"

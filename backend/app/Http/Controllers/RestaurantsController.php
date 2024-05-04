@@ -295,9 +295,6 @@ public function getRestaurantsByIds(Request $request)
             )
             ->join('items as i', 'oi.item_id', '=', 'i.id')
             ->where('oi.restaurant_id', $restId)
-            ->whereIn('oi.order_id', [10, 11, 25, 26, 27, 28, 29])
-            ->whereBetween('oi.item_id', [6, 18])
-            ->whereNotIn('oi.item_id', [12, 13])
             ->groupBy('oi.item_id', 'i.title', 'i.price', 'i.description', 'i.thumbnail')
             ->orderByDesc('total_quantity_ordered')
             ->limit(5)
@@ -305,5 +302,6 @@ public function getRestaurantsByIds(Request $request)
 
         return response()->json($topOrderedItems);
     }
+
 
 }

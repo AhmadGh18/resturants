@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./newSide.css";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../context/ContextProvider";
+import { FaPlus } from "react-icons/fa";
 const NewSide = () => {
   const [click, setisclic] = useState(false);
   const { setUser } = useStateContext();
@@ -10,7 +11,7 @@ const NewSide = () => {
   }
   function handleout() {
     localStorage.clear();
-    setUser(null);
+
     location.reload();
   }
   return (
@@ -18,8 +19,7 @@ const NewSide = () => {
       <div className={`sidebar ${click ? "active" : ""} z-10`}>
         <div className="logo_content">
           <div className="logo">
-            <i className="bx bxl-javascript"></i>
-            <div className="logo_name">CodingLab</div>
+            <div className="logo_name"></div>
           </div>
           <i className="bx bx-menu" id="btn" onClick={toggleclick}></i>
         </div>
@@ -51,11 +51,12 @@ const NewSide = () => {
             <span className="tooltip">Messages</span>
           </li>
           <li>
-            <a href="#">
-              <i className="bx bx-pie-chart-alt-2"></i>
-              <span className="links_name">Analytics</span>
-            </a>
-            <span className="tooltip">Analytics</span>
+            <Link to="/main/restaurantPage/addItem">
+              <i className="bx bx-plus"></i>
+
+              <span className="links_name">Add Item</span>
+            </Link>
+            <span className="tooltip">Add</span>
           </li>
           <li>
             <Link to="/main/restaurantPage/manageItems">

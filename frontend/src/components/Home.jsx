@@ -139,7 +139,7 @@ const Home = () => {
           <div className="searchhold">
             <input
               type="text"
-              placeholder="   Search for City or restaurant"
+              placeholder="Search for City or restaurant"
               value={searchTerm}
               onChange={handleSearchChange}
               onFocus={handleFocus}

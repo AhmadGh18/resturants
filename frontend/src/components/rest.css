@@ -178,5 +178,11 @@
 }
 
 .mapholder {
-    height: 400px;
+    height: 100%;
+
+}
+
+.addLoc {
+    height: 100vh !important;
+    width: 800px;
 }

@@ -40,12 +40,10 @@ const Checkout = () => {
   const cartItems = JSON.parse(window.localStorage.getItem("Cart_items")) || [];
   const restaurantIds = cartItems.map((item) => item.restaurant_id);
   useEffect(() => {
-    console.log("Fetching restaurants by IDs:", restaurantIds);
     if (restaurantIds.length > 0) {
       axiosClient
         .get("/getRestaurantsByIds", { params: { ids: restaurantIds } })
         .then((response) => {
-          console.log("Received restaurants:", response.data);
           setRestaurants(response.data);
         })
         .catch((error) => {
@@ -164,7 +162,6 @@ const Checkout = () => {
   };
   const checkdistance = (e) => {
     if (restaurants.length === 0) {
-      console.log("No restaurants available.");
       return;
     }
     let canOrder = true; // Flag variable
@@ -211,7 +208,7 @@ const Checkout = () => {
     return deg * (Math.PI / 180);
   };
   const notify = (rest) => {
-    toast(`Cannot order from ${rest}  since its doenot deliver this far`);
+    toast(`Cannot order from ${rest}  since its does not deliver this far`);
   };
   return (
     <>

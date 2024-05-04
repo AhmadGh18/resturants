@@ -1,39 +1,98 @@
-import React from "react";
+import { CardContent, Collapse, Typography } from "@mui/material";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { styled } from "@mui/material/styles";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CardMedia from "@mui/material/CardMedia";
+import CardActions from "@mui/material/CardActions";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import { red } from "@mui/material/colors";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+
+const ExpandMore = styled((props) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+  marginLeft: "auto",
+  transition: theme.transitions.create("transform", {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
 
 const ManageItemComponents = (props) => {
-  return (
-    <div>
-      <div></div>
-      <div className="flex flex-wrap justify-between gap-3 mt-9 ml-5">
-        <div className="card card-compact w-96 bg-base-100 shadow-xl rounded-lg">
-          <figure>
-            <img
-              src={
-                props.image
-                  ? `http://localhost:8000/storage/${props.image}`
-                  : "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-              }
-              alt="food"
-              className="rounded-lg w-100 h-70"
-            />
-          </figure>
+  const [editMode, setEditMode] = useState(false);
 
-          <div className="card-body">
-            <h2 className="card-title font-bold">{props.title}</h2>
-            <p>{props.description}</p>
-            <div className="card-actions justify-end">
-              <Link
-                to={`/main/restaurantPage/itemsedit/${props.id}`}
-                className="btn btn-primary absolute right-5"
-              >
-                Edit
-              </Link>
-            </div>
-          </div>
+  const handleEditClick = () => {
+    setEditMode(!editMode);
+  };
+
+  const date = new Date(props.created_at);
+  const formattedDate = `${date.getDate()} ${date.toLocaleString("default", {
+    month: "long",
+  })} ${date.getFullYear()}`;
+  return (
+    <Card sx={{ maxWidth: 345 }} className="mr-2 mt-3 relative">
+      <CardHeader
+        avatar={
+          <Avatar
+            sx={{ bgcolor: red[500] }}
+            aria-label="recipe"
+            src={`http://localhost:8000/storage/${props.logo}`}
+          ></Avatar>
+        }
+        action={
+          <IconButton aria-label="settings" onClick={handleEditClick}>
+            <MoreVertIcon />
+          </IconButton>
+        }
+        title={props.title}
+        subheader={formattedDate}
+      />
+      {editMode && (
+        <div
+          style={{
+            position: "absolute",
+            top: "43px",
+            right: "8px",
+            backgroundColor: "#dedddd",
+            width: "100px",
+            textAlign: "center",
+            borderRadius: "5px",
+            cursor: "pointer",
+            padding: "8px",
+          }}
+          onClick={handleEditClick}
+        >
+          <Link to={`/main/restaurantPage/itemsedit/${props.id}`}> Edit</Link>
         </div>
-      </div>
-    </div>
+      )}
+      <CardMedia
+        component="img"
+        height=""
+        image={`http://localhost:8000/storage/${props.image}`}
+        alt="Paella dish"
+        style={{ minHeight: "250px", maxHeight: "250px" }}
+      />
+      <CardContent>
+        <Typography variant="body2" color="text.secondary">
+          {props.description}
+        </Typography>
+      </CardContent>
+      <CardActions disableSpacing>
+        <IconButton aria-label="add to favorites">
+          <FavoriteIcon />
+        </IconButton>
+        <IconButton aria-label="share">
+          <ShareIcon />
+        </IconButton>
+      </CardActions>
+    </Card>
   );
 };
 

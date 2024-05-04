@@ -20,7 +20,7 @@ const ManageItem = () => {
   }, [restaurant]);
 
   return (
-    <div className="h-screen w-auto 0 z-0">
+    <div className="h-screen w-auto 0 z-0 bg-gray-100">
       {loading && (
         <div className="absolute inset-0 flex justify-center items-center bg-gray-300 opacity-50">
           <p className="text-lg">Loading...</p>
@@ -34,6 +34,10 @@ const ManageItem = () => {
               title={el.title}
               image={el.thumbnail}
               id={el.id}
+              description={el.description}
+              created_at={el.created_at}
+              rest_name={restaurant.restaurant.name}
+              logo={restaurant.restaurant.profile_picture}
             />
           ))
         ) : (

@@ -268,7 +268,7 @@ const ItemOnwer = () => {
               <div>
                 <button
                   type="submit"
-                  className="hover:shadow-form w-full rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none"
+                  className="hover:shadow-form w-full rounded-md bg-blue-600 py-3 px-8 text-center text-base font-semibold text-white outline-none"
                 >
                   Update
                 </button>
@@ -276,7 +276,7 @@ const ItemOnwer = () => {
               <div>
                 <button
                   type="button"
-                  className="mt-3 hover:shadow-form w-full rounded-md bg-red-600 py-3 px-8 text-center text-base font-semibold text-white outline-none"
+                  className="mt-3 hover:shadow-form w-full rounded-md bg-red-500 py-3 px-8 text-center text-base font-semibold text-white outline-none"
                   onClick={(e) => {
                     e.preventDefault();
                     axiosClient.delete(`/item/${item.id}`).then(() => {

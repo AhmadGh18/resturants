@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { useStateContext } from "../context/ContextProvider";
 import axiosClient from "../axiosClient";
-import { FaEye } from "react-icons/fa";
-import axios from "axios";
+
 const LoginPage = () => {
   const [error, setError] = useState(null);
   const { User, setUser, setToken, token } = useStateContext();
@@ -54,7 +53,7 @@ const LoginPage = () => {
           <div className="mb-4">
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-600 mb-2"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-600 mb-2 "
             >
               Email Address
             </label>
@@ -101,7 +100,7 @@ const LoginPage = () => {
           </div>
           <button
             type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Login
           </button>

@@ -3,12 +3,18 @@ import "./usernav.css";
 import { Link } from "react-router-dom";
 import { FaAccusoft, FaUser } from "react-icons/fa";
 import { useStateContext } from "../context/ContextProvider";
+import img from "../assets/_b21eccf6-aceb-4b61-bb4f-711facb64627.jfif";
 const UserNav = () => {
   const { User } = useStateContext();
   return (
     <div>
       <header>
-        <div className="logo">EVLEARN</div>
+        <div
+          className="logo"
+          style={{ height: "100%", width: "190px", objectFit: "contain" }}
+        >
+          <img src={img} className="h-100 w-100" />
+        </div>
         <input type="checkbox" id="nav_check" hidden />
         <nav>
           <ul>

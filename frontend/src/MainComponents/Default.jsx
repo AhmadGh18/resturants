@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useStateContext } from "../context/ContextProvider";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import axiosClient from "../axiosClient";
 
 const Default = () => {
   const { token, User, setUser } = useStateContext();
+
+  const nav = useNavigate();
 
   useEffect(() => {
     axiosClient
@@ -16,7 +18,9 @@ const Default = () => {
         console.error(error);
       });
   }, [setUser]);
-
+  if (User.has_restaurant == 0) {
+    return nav("/home");
+  }
   // if (User) {
   //   if (User.has_restaurant == 1) {
   //     return <Navigate to="/main/restaurant" />;

@@ -11,7 +11,6 @@ const BestPlace = () => {
         .get(`/bestplacedOrders/${restaurant.restaurant.id}`)
         .then((response) => {
           setlongandlat(response.data);
-          console.log(response.data);
         });
     }
   }, [restaurant]);

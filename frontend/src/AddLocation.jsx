@@ -64,15 +64,11 @@ const AddLocation = () => {
   }, []);
 
   return (
-    <div className="form-container" style={{ margin: "auto" }}>
+    <div className="form-container addLoc" style={{ margin: "auto" }}>
       <center>
         <h5>Move the pin and mark to your Restaurant Location</h5>
       </center>
-      <div
-        id="us2"
-        className="width-100 mapholder"
-        style={{ width: "100%" }}
-      ></div>
+      <div id="us2" className="w-100 mapholder" style={{ width: "100%" }}></div>
       <div className="btn-holder">
         <button
           className="button"

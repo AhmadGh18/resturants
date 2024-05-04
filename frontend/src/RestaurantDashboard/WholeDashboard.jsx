@@ -12,14 +12,7 @@ import { useStateContext } from "../context/ContextProvider";
 
 const WholeDashboard = () => {
   const { restaurant } = useStateContext();
-  useEffect(() => {
-    console.log("kk");
-    if (restaurant) {
-      console.log(restaurant.restaurant);
-    } else {
-      console.log("noooo");
-    }
-  }, [restaurant]);
+
   return <div></div>;
 };
 

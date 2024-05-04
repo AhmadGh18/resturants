@@ -26,8 +26,6 @@ const AllCartItems = (props) => {
     fetchElements();
   }, [props.cartitems]); // Trigger effect when cart items change
 
-  console.log("Cart items:", props.cartitems); // Log cart items received as props
-
   const handleIncrement = (itemId) => {
     const updatedItems = props.cartitems.map((item) =>
       item.item_id === itemId && item.qnty > 0
@@ -64,7 +62,6 @@ const AllCartItems = (props) => {
             params: { ids: ids },
           });
           setInfo(response.data);
-          console.log("Fetched items:", response.data); // Log fetched items
         } catch (error) {
           console.error("Error fetching elements:", error);
         }

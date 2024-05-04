@@ -10,7 +10,6 @@ const ItemCard = (props) => {
   const { id, User, token } = useStateContext();
   const Profileview = () => {
     if (token) {
-      console.log("yes");
       axiosClient.post(`/profileview/${User.id}/${props.id}`).then((res) => {
         console.log(res);
       });
@@ -47,7 +46,7 @@ const ItemCard = (props) => {
                   />
                 ))}
               </div>
-              {props.rating_count && (
+              {(props.rating_count || props.rating_count == 0) && (
                 <span style={{ fontSize: "12px" }} className="text-gray-600">
                   {props.rating_count} reviews
                 </span>
