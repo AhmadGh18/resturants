@@ -115,19 +115,7 @@ const SingleOrder = () => {
             <div className="mt-4 font-semibold">Final Total: {total}</div>
           )}
           {!orderedItems && <div className="mt-4 font-semibold">No items</div>}
-          {orderStatus && (
-            <div className="mt-8">
-              <h1 className="font-bold">
-                Order Status:{" "}
-                {orderStatus === "done" ? (
-                  <span className="text-green-500">Done</span>
-                ) : (
-                  <span className="text-red-500">Not Done</span>
-                )}
-              </h1>
-            </div>
-          )}
-          {orderStatus === "No Set" && (
+          {(orderStatus === "not set" || orderStatus === "Not set") && (
             <div className="mt-8 flex justify-between">
               <button
                 onClick={() => updateOrderStatus("done")}
@@ -141,6 +129,18 @@ const SingleOrder = () => {
               >
                 Not Done
               </button>
+            </div>
+          )}
+          {orderStatus !== "not set" && (
+            <div className="mt-8">
+              <h1 className="font-bold">
+                Order Status:{" "}
+                {orderStatus === "done" ? (
+                  <span className="text-green-500">Done</span>
+                ) : (
+                  <span className="text-red-500">Not Done</span>
+                )}
+              </h1>
             </div>
           )}
         </>

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axiosClient from "./axiosClient.js";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
-import { FaStar } from "react-icons/fa";
 import UserNav from "./components/UserNav.jsx";
 import ItemCard from "./MainComponents/ItemCard.jsx";
 
@@ -128,9 +127,12 @@ const NearbyPlace = () => {
   return (
     <div>
       <UserNav />
-      <div id="us2" className="mapholder"></div>
+      <div
+        id="us2"
+        className="w-[80%] bg-red-100 h-[400px] mr-[100px] ml-[100px]"
+      ></div>
       <button
-        className="p-2 bg-blue-600 m-3 text-white rounded-[10px]"
+        className="p-2 bg-blue-600 m-3 text-white rounded-[10px] accbtn"
         onClick={handleAcceptLocation}
       >
         Access my location
@@ -138,7 +140,9 @@ const NearbyPlace = () => {
 
       {loading && <p>Loading nearby restaurants...</p>}
       {!loading && nearbyRestaurants.length === 0 && (
-        <p>No nearby restaurants found.</p>
+        <center>
+          <h1 className="font-bold">No nearby restaurants found.</h1>
+        </center>
       )}
       {!loading && nearbyRestaurants.length > 0 && (
         <div>

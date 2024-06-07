@@ -111,7 +111,7 @@ const NearbyPlace = () => {
   return (
     <div>
       <div id="us2" className="mapholder"></div>
-      <button onClick={handleAcceptLocation}>Access my location</button>
+      {/* <button onClick={handleAcceptLocation}>Access my location</button> */}
 
       {loading && <p>Loading nearby restaurants...</p>}
       {!loading && nearbyRestaurants.length === 0 && (

@@ -3,9 +3,7 @@ import Swal from "sweetalert";
 
 const Map = () => {
   useEffect(() => {
-    // Check if jQuery is available
     if (window.jQuery) {
-      // Load the locationpicker plugin
       import(
         "https://rawgit.com/Logicify/jquery-locationpicker-plugin/master/dist/locationpicker.jquery.js"
       )
